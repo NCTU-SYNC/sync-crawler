@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 protobuf = "^4.24.3"
+lmdb = "^1.4.1"
+typing-extensions = "^4.8.0"
 
 
 [tool.poetry.group.dev.dependencies]
