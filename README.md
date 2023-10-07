@@ -18,6 +18,7 @@ poetry install --without dev
 
 ```bash
 poetry install
+poetry run pre-commit install
 ```
 
 ## Protocol Buffer Code Generation
