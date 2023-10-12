@@ -4,25 +4,14 @@ package crawler;
 
 import "google/protobuf/timestamp.proto";
 
-enum Category {
-    UNSPECIFIED = 0;
-    POLITICAL_ECONOMY = 1;
-    INTERNATIONAL = 2;
-    SOCIETY = 3;
-    TECHNOLOGY = 4;
-    ENVIRONMENT = 5;
-    LIFE = 6;
-    SPORTS = 7;
-}
-
 message News {
-    string title = 1;
-    repeated string content = 2;
-    Category category = 3;
-    google.protobuf.Timestamp modified_date = 4;
-    string media = 5;
-    repeated string tags = 6;
-    string url = 7;
-    string url_hash = 8;
-    string content_hash = 9;
+  string title = 1;
+  repeated string content = 2;
+  string category = 3;
+  google.protobuf.Timestamp modified_date = 4;
+  string media = 5;
+  repeated string tags = 6;
+  string url = 7;
+  string url_hash = 8;
+  string content_hash = 9;
 }

@@ -14,15 +14,13 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10proto/news.proto\x12\x07\x63rawler\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd0\x01\n\x04News\x12\r\n\x05title\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x03(\t\x12#\n\x08\x63\x61tegory\x18\x03 \x01(\x0e\x32\x11.crawler.Category\x12\x31\n\rmodified_date\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\r\n\x05media\x18\x05 \x01(\t\x12\x0c\n\x04tags\x18\x06 \x03(\t\x12\x0b\n\x03url\x18\x07 \x01(\t\x12\x10\n\x08url_hash\x18\x08 \x01(\t\x12\x14\n\x0c\x63ontent_hash\x18\t \x01(\t*\x89\x01\n\x08\x43\x61tegory\x12\x0f\n\x0bUNSPECIFIED\x10\x00\x12\x15\n\x11POLITICAL_ECONOMY\x10\x01\x12\x11\n\rINTERNATIONAL\x10\x02\x12\x0b\n\x07SOCIETY\x10\x03\x12\x0e\n\nTECHNOLOGY\x10\x04\x12\x0f\n\x0b\x45NVIRONMENT\x10\x05\x12\x08\n\x04LIFE\x10\x06\x12\n\n\x06SPORTS\x10\x07\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10proto/news.proto\x12\x07\x63rawler\x1a\x1fgoogle/protobuf/timestamp.proto\"\xbd\x01\n\x04News\x12\r\n\x05title\x18\x01 \x01(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x03(\t\x12\x10\n\x08\x63\x61tegory\x18\x03 \x01(\t\x12\x31\n\rmodified_date\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\r\n\x05media\x18\x05 \x01(\t\x12\x0c\n\x04tags\x18\x06 \x03(\t\x12\x0b\n\x03url\x18\x07 \x01(\t\x12\x10\n\x08url_hash\x18\x08 \x01(\t\x12\x14\n\x0c\x63ontent_hash\x18\t \x01(\tb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'proto.news_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
-  _globals['_CATEGORY']._serialized_start=274
-  _globals['_CATEGORY']._serialized_end=411
   _globals['_NEWS']._serialized_start=63
-  _globals['_NEWS']._serialized_end=271
+  _globals['_NEWS']._serialized_end=252
 # @@protoc_insertion_point(module_scope)
