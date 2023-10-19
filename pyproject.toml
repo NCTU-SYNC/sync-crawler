@@ -11,6 +11,9 @@ protobuf = "^4.24.3"
 lmdb = "^1.4.1"
 typing-extensions = "^4.8.0"
 pymongo = "^4.5.0"
+chromadb = "^0.4.14"
+sentence-transformers = "^2.2.2"
+torch = ">=2.0.0, !=2.0.1, !=2.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
