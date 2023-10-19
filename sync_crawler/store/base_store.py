@@ -51,7 +51,8 @@ class BaseStore(abc.ABC):
         """Fetch data from store then delete them.
 
         Args:
-            nums: Number of data to be popped.
+            nums: Number of data to be popped. If the remaining data is less than `nums`, all
+                remaining data will be popped.
 
         Returns:
             List of popped data.

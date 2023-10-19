@@ -52,9 +52,12 @@ class LmdbStore(BaseStore):
 
     @override
     def pop(self, nums=1):
+        values = []
+
         with self._env.begin(write=True) as txn:
-            keys, values = zip(*itertools.islice(txn.cursor(), nums))
-            map(txn.delete, keys)
+            for key, value in itertools.islice(txn.cursor(), nums):
+                values.append(value)
+                txn.delete(key)
 
         return map(self._deserializer, values)
 
