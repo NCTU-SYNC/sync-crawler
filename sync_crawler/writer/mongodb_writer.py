@@ -6,7 +6,13 @@ from sync_crawler.writer.base_writer import BaseWriter
 
 class MongoDBWriter(BaseWriter):
 
-    def __init__(self, url: str, database: str, collection: str) -> None:
+    def __init__(
+        self,
+        url: str = 'mongodb://localhost:8000',
+        database: str = 'SYNC',
+        collection: str = 'News',
+        in_memory: bool = False,
+    ) -> None:
         """Initialize MongoDBWriter.
 
         Args:
@@ -14,8 +20,14 @@ class MongoDBWriter(BaseWriter):
             to connect to.
             database: Name of database.
             collection: Name of collection.
+            in_memory: Whether to use an in-memory database, usually for testing and development.
+                If True, `url` will be ignored.
         """
-        self._client = pymongo.MongoClient(url)
+        if in_memory:
+            import pymongo_inmemory  # pylint: disable=import-outside-toplevel
+            self._client = pymongo_inmemory.MongoClient()
+        else:
+            self._client = pymongo.MongoClient(url)
         self._collection = self._client[database][collection]
 
     @override

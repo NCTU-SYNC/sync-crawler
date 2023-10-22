@@ -1676,6 +1676,20 @@ snappy = ["python-snappy"]
 zstd = ["zstandard"]
 
 [[package]]
+name = "pymongo-inmemory"
+version = "0.3.1"
+description = "A mongo mocking library with an ephemeral MongoDB running in memory."
+optional = false
+python-versions = ">=3.9,<4.0"
+files = [
+    {file = "pymongo_inmemory-0.3.1-py3-none-any.whl", hash = "sha256:8aff014d106ae16664c39c7e6812098b977c14c595bbea60a6b9a668652dff68"},
+    {file = "pymongo_inmemory-0.3.1.tar.gz", hash = "sha256:acde8c6f4b8629131268ffd423e42578579b4ca9e6398575381ba50bea3b58ff"},
+]
+
+[package.dependencies]
+pymongo = "*"
+
+[[package]]
 name = "pypika"
 version = "0.48.9"
 description = "A SQL query builder API for Python"
@@ -2974,4 +2988,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "0d685ec77a26d0037741327b991228b3f75832691cae15169424be540c45233c"
+content-hash = "452ab7eca736c6baa00e896e68cbd76866e5014960304b0b5c0f8aa7b6dd83ac"
