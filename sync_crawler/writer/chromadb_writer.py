@@ -14,25 +14,30 @@ class ChromaDBWriter(BaseWriter):
         self,
         host: str = 'localhost',
         port: str = '8000',
-        collection_name: str = 'news',
+        collection: str = 'news',
         embedding_function_name: str = 'distiluse-base-multilingual-cased-v1',
+        in_memory: bool = False,
     ):
         """Initialize ChromaDBWriter.
 
         Args:
             host: Host of ChromaDB server.
             port: Port of ChromaDB server.
-            collection_name: Name of collection.
+            collection: Name of collection.
             embedding_function_name: Name of embedding model. All available
                 models can be found [here](https://www.sbert.net/docs/pretrained_models.html)
-
+            in_memory: Whether to use an in-memory database, usually for testing and development.
+                If True, `host` and `port` will be ignored.
         """
-        self._client = chromadb.HttpClient(host=host, port=port)
+        if in_memory:
+            self._client = chromadb.EphemeralClient()
+        else:
+            self._client = chromadb.HttpClient(host=host, port=port)
         self._embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
             model_name=embedding_function_name, device=None)
 
         self._collection = self._client.get_or_create_collection(
-            collection_name, embedding_function=self._embedding_function)
+            collection, embedding_function=self._embedding_function)
 
     @override
     def put(self, _ids, messages: Iterable[news_pb2.News]):  # pylint: disable=no-member
