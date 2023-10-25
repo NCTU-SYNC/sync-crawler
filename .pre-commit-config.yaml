@@ -4,7 +4,7 @@ exclude: "proto/"
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-yaml
       - id: check-toml
@@ -27,3 +27,11 @@ repos:
           - --parallel
           - --in-place
         additional_dependencies: [toml]
+
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        args:
+          - --convention=google
+          - --add-ignore=D100,D101,D102,D103,D104,D105,D106,D107
