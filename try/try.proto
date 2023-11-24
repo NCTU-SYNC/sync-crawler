@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package news_index;
+
+message index {
+  string title = 1;
+  string content = 2;
+  string category = 3;
+  string modified_date = 4;
+  string media = 4;
+  string tags = 5;
+  string url = 6;
+  string url_hash = 7;
+  string content_hash = 8;
+}
