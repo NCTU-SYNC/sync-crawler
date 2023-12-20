@@ -21,8 +21,8 @@ class Base:
         self.media = media
         # self.tags = tags
         self.url = self.get_page(url, headers)
-        self.url_hash = url_hash if url_hash else self.generate_hash(url)
-        self.content_hash = content_hash if content_hash else self.generate_hash(content)
+        self.url_hash = url_hash if url_hash else self.generate_hash(url) if url else None
+        self.content_hash = content_hash if content_hash else self.generate_hash(content) if content else None
 
     def get_page(self, url, headers):
         try:
@@ -31,12 +31,13 @@ class Base:
             soup = BeautifulSoup(r.text, "html.parser")
             return soup
         except requests.RequestException as e:
-            print(f"Error fetching page: {e}")
+            print(f"Error fetching page")
             return None
 
     def get_title(self, soup, title_sel):
-        # title = soup.select(title_sel)
-        title = soup.find(title_sel).text
+        title = soup.select_one(title_sel)
+        title = title.text
+        # title = soup.find(title_sel).text
         return title
 
     def get_content(self, soup, content_sel, title):
@@ -54,12 +55,21 @@ class Base:
         return category
 
     def get_modified_date(self, date_text):
-        modified_date = datetime.strptime(date_text, "%Y/%m/%d %H:%M")
-        tz = timezone(timedelta(hours=+8))
-        modified_date = modified_date.replace(tzinfo=tz)
-        modified_date = modified_date.astimezone(tz)
-        modified_date = modified_date.astimezone(timezone.utc)
-        return modified_date
+        try:
+            date_text = date_text.strip()
+            # print("Original date_text:", date_text)
+            if ":" in date_text and len(date_text.split(":")) == 3:
+                date_text = ':'.join(date_text.split(':')[:-1])
+            # print("Modified date_text:",date_text)
+            modified_date = datetime.strptime(date_text, "%Y/%m/%d %H:%M")
+            tz = timezone(timedelta(hours=+8))
+            modified_date = modified_date.replace(tzinfo=tz)
+            modified_date = modified_date.astimezone(tz)
+            modified_date = modified_date.astimezone(timezone.utc)
+            return modified_date
+        except Exception as e:
+            print(f"Error getting modified date {e}")
+            return None
 
     # def get_tags(self, soup, tag_key, tag_sel):
     #     tags = []
