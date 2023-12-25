@@ -1,6 +1,6 @@
 # -!- coding: utf-8 -!-
 
-from test.base_class import Base
+from tryy.base_class import Base
 
 def storm_crawler(size=10):
 
@@ -13,66 +13,83 @@ def storm_crawler(size=10):
              "https://www.storm.mg/articles/3", "https://www.storm.mg/articles/4",
              "https://www.storm.mg/articles/5", "https://www.storm.mg/articles/6"]
 
+    temp_base = Base(title=None, content=None, category=None, modified_date=None, media=None)
+
     for link in links:
-        soup = Base.get_page(link)
+        soup = temp_base.get_page(link, headers)
         sel = soup.find_all('div', 'category_card card_thumbs_left')
 
-        urls = []
-        for s in sel:
-            u = s.find('a')['href']
-            urls.append(u)
+    urls = []
+    for s in sel:
+        u = s.find('a')['href']
+        urls.append(u)
+    # print(urls)
 
-        article_count = 0
-        for url in urls:
-            instance = Base("Title", "Content", "Category", "Modified_Date", "風傳媒", url=url, headers=headers)
-            try:
-                soup = instance.get_page(instance.url, headers)
+    article_count = 0
+    for url in urls:
+        instance = Base("Title", "Content", "Category", "Modified_Date", "風傳媒", url=url, headers=headers)
+        try:
+            # print(url)
+            soup = instance.url
+            # print("success__getting__page")
+            # print(soup)
 
-                # title = soup.find('h1', id='article_title').text
-                title_selector = 'h1#article_title'
-                title = instance.get_title(soup, title_selector)
+            title_selector = '#article_title'
+            title = instance.get_title(soup, title_selector)
+            # print("success__getting__title: ", title)
 
-                modified_date = soup.find('span', id='info_time').text
-                modified_date = instance.get_modified_date(modified_date)
+            modified_date = soup.find('span', id='info_time').text
+            modified_date = instance.get_modified_date(modified_date)
+            # print("success__getting__modified_date: ", modified_date)
+            
+            category = []
+            category_selector = 'a.tags_link'
+            category_set = instance.get_category(soup, category_selector)
+            for a in category_set:
+                a = a.get_text()
+                if a not in ['評論', '投書', '專欄']:
+                    category.append(a)
+            # print("success__getting__category: ", category)
 
-                # sel = soup.find('div', id='title_tags_wrapper')
-                # for s in sel.find_all('a'):
-                category_selector = 'div#title_tags_wrapper a'
-                category = instance.get_category(soup, category_selector)
+            tags = []
+            tag_links = soup.select('div#tags_list_wrapepr a')
+            for tag in tag_links:
+                tags.append(tag.get_text())
+            # print("success__getting__tags: ", tags)
 
-                tags = []
+            content_selector = '#CMS_wrapper p'
+            content = instance.get_content(soup, content_selector, title)
+            # print("success__getting__content: ", content)
 
-                # para = soup.find('div', id='CMS_wrapper').find_all('p')
-                content_selector = 'div#CMS_wrapper p'
-                content = instance.get_content(soup, content_selector, title)
+            # print("success__getting__url_hash: ", instance.url_hash)
+            # print("success__getting__cont_hash: ", instance.content_hash, "\n\n")
 
-                url_hash = instance.generate_hash(instance.url)
-                content_hash = instance.generate_hash(content)
+            news_dict = {
+                'title': title,
+                'content': content,
+                'category': category,
+                'modified_date': modified_date,
+                'media': media,
+                'tags': tags,
+                'url': url,
+                'url_hash': instance.url_hash,
+                'content_hash': instance.content_hash
+            }
 
-                news_dict = {
-                    'title': title,
-                    'content': content,
-                    'category': category,
-                    'modified_date': modified_date,
-                    'media': media,
-                    'tags': tags,
-                    'url': url,
-                    'url_hash': url_hash,
-                    'content_hash': content_hash
-                }
+            print(news_dict)
+            article_list.append(news_dict)
 
-                # print(news_dict)
-                article_list.append(news_dict)
+            article_count += 1
 
-                article_count += 1
+            if article_count >= size:
+                break
 
-                if article_count >= size:
-                    break
-
-            except Exception as e:
-                print("風傳媒 storm")
-                print(url)
-                print(e)
-                continue
+        except Exception as e:
+            print("風傳媒 storm")
+            print(url)
+            print(e)
+            continue
 
     return article_list
+
+result = storm_crawler(size=1)
