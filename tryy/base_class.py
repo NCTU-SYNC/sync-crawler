@@ -70,17 +70,19 @@ class Base:
             # 2023/12/13 sten
             if ":" in date_text and len(date_text.split(":")) == 3:
                 date_text = ':'.join(date_text.split(':')[:-1])
-            # 2023-12-13 udn
-            if '-' in date_text and len(date_text.split('-')) == 3:
+            # 2023-12-24 14:19 storm
+            if '-' in date_text:
                 date_text = date_text.replace('-', '/')
-                date_text += ' 00:00'
+            # 2023-12-13 udn
+            if ' ' not in date_text:
+                date_text += " 00:00"
             # print("Modified date_text:",date_text)
             # modified_date = datetime.strptime(date_text, "%Y/%m/%d %H:%M")
             # tz = timezone(timedelta(hours=+8))
             # modified_date = modified_date.replace(tzinfo=tz)
             # modified_date = modified_date.astimezone(tz)
             # modified_date = modified_date.astimezone(timezone.utc)
-            return date_text
+            return date_text[:16]
         except Exception as e:
             print(f"Error getting modified date {e}")
             return None
