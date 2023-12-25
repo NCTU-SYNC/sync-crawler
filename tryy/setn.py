@@ -91,5 +91,5 @@ def setn_crawler(size=10):
 
     return article_list
 
-# print("import success")
+print("import success")
 # result = setn_crawler(size=1)
