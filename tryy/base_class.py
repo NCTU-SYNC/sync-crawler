@@ -46,27 +46,41 @@ class Base:
         content_str = ""
         content_str += title
         for s in content_sel:
-            article_content.append(s.text)
-            content_str += s.text
+            s = s.text.replace('\n', '')
+            article_content.append(s)
+            content_str += s
         return article_content
 
     def get_category(self, soup, category_sel):
         category = soup.select(category_sel)
+        return category
+    
+    # udn
+    def find_category(self, soup, type, class_):
+        category = soup.find_all(type, class_=class_)
+        for c in category:
+            print(c.text(), " ")
+        # category = category.get_text()
         return category
 
     def get_modified_date(self, date_text):
         try:
             date_text = date_text.strip()
             # print("Original date_text:", date_text)
+            # 2023/12/13 sten
             if ":" in date_text and len(date_text.split(":")) == 3:
                 date_text = ':'.join(date_text.split(':')[:-1])
+            # 2023-12-13 udn
+            if '-' in date_text and len(date_text.split('-')) == 3:
+                date_text = date_text.replace('-', '/')
+                date_text += ' 00:00'
             # print("Modified date_text:",date_text)
-            modified_date = datetime.strptime(date_text, "%Y/%m/%d %H:%M")
-            tz = timezone(timedelta(hours=+8))
-            modified_date = modified_date.replace(tzinfo=tz)
-            modified_date = modified_date.astimezone(tz)
-            modified_date = modified_date.astimezone(timezone.utc)
-            return modified_date
+            # modified_date = datetime.strptime(date_text, "%Y/%m/%d %H:%M")
+            # tz = timezone(timedelta(hours=+8))
+            # modified_date = modified_date.replace(tzinfo=tz)
+            # modified_date = modified_date.astimezone(tz)
+            # modified_date = modified_date.astimezone(timezone.utc)
+            return date_text
         except Exception as e:
             print(f"Error getting modified date {e}")
             return None
