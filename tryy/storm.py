@@ -76,7 +76,7 @@ def storm_crawler(size=10):
                 'content_hash': instance.content_hash
             }
 
-            print(news_dict)
+            # print(news_dict)
             article_list.append(news_dict)
 
             article_count += 1
