@@ -1,6 +1,6 @@
 # -!- coding: utf-8 -!-
 
-from test.base_class import Base
+from tryy.base_class import Base
 
 def cna_crawler(size=30):
 
@@ -9,52 +9,52 @@ def cna_crawler(size=30):
     
     article_list = []
 
-    # soup = get_page('https://www.cna.com.tw/list/aall.aspx')
-    soup = Base.get_page('https://www.cna.com.tw/list/aall.aspx')
+    temp_base = Base(title=None, content=None, category=None, modified_date=None, media=None)
+    soup = temp_base.get_page('https://www.cna.com.tw/list/aall.aspx', headers)
     sel = soup.find('ul', 'mainList imgModule', id='jsMainList').find_all('li')
 
-    # add each url to url list
     urls = []
     for s in sel:
         urls.append(s.find('a')['href'])
+    # print(urls)
 
     news_count = 0
     for url in urls:
         instance = Base("Title", "Content", "Category", "Modified_Date", "中央社", url=url, headers=headers)
         try:
-            # soup = get_page(url)
-            soup = instance.get_page(instance.url, headers)
+            # print(url)
+            soup = instance.url
+            # print("success__getting__page")
 
-            # title = soup.find('div', 'centralContent').find('h1').text
             title_selector = 'div.centralContent h1'
-            title = instance.get_title(instance.url, title_selector)
+            title = instance.get_title(soup, title_selector)
+            # print("success__getting__title: ", title)
 
-            modified_date = soup.find('meta', itemprop='dateModified')['content']
-            # modified_date = datetime.datetime.strptime(modified_date, "%Y/%m/%d %H:%M")
-            # modified_date = utilities.convert_to_utc(modified_date)
+            modified_date = soup.find('div', class_='updatetime').text
             modified_date = instance.get_modified_date(modified_date)
+            # print("success__getting__modified_date: ", modified_date)
 
-            # category = soup.find('div', 'breadcrumb').find_all('a')[1].text
             category_selector = 'div.breadcrumb a'
-            category = instance.get_category(soup, category_selector)[1].text
+            category = instance.get_category(soup, category_selector)
+            category = category[1].text
+            # print("success__getting__category: ", category)
 
             tags = []
+            tag_links = soup.select('div.keywordTag a')
+            for tag in tag_links:
+                tag = tag.get_text()
+                tag = tag.replace('#', '')
+                tags.append(tag)
+            # print("success__getting__tags: ", tags)
 
-            # article_content = []
-            # content_str = ""
-            # content_str += title
-            # sel = soup.find('div', 'paragraph').find_all('p')
-            # for s in sel:
-            #     article_content.append(s.text)
-            #     content_str += s.text
-            content_selector = 'div.paragraph p'
-            content = instance.get_content(soup, content_selector, title)
+            content = soup.find("div", class_="paragraph")
+            content_selector = 'p:lang(zh)'
+            content = instance.get_content(content, content_selector, title)
+            # print("success__getting__content: ", content)
 
-            # url_hash = generate_hash(url)
-            url_hash = instance.generate_hash(instance.url)
-            # content_hash = generate_hash(content_str)
-            content_hash = instance.generate_hash(content)
-
+            # print("success__getting__url_hash: ", instance.url_hash)
+            # print("success__getting__cont_hash: ", instance.content_hash, "\n\n")
+            
             news_dict = {}
             news_dict['title'] = title
             news_dict['content'] = content
@@ -63,8 +63,8 @@ def cna_crawler(size=30):
             news_dict['media'] = media
             news_dict['tags'] = tags
             news_dict['url'] = url
-            news_dict['url_hash'] = url_hash
-            news_dict['content_hash'] = content_hash
+            news_dict['url_hash'] = instance.url_hash
+            news_dict['content_hash'] = instance.content_hash
 
             # print(news_dict)
             article_list.append(news_dict)
@@ -81,3 +81,5 @@ def cna_crawler(size=30):
             continue
 
     return article_list
+
+# result = cna_crawler(size=1)
