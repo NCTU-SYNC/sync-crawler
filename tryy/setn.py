@@ -2,19 +2,27 @@
 
 from tryy.base_class import Base
 
+
 def setn_crawler(size=10):
 
     # print("in setn")
 
     media = '三立'
-    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"}
+    headers = {
+        "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+    }
 
     article_list = []
 
     view_all_link = "https://www.setn.com/ViewAll.aspx"
     base = 'https://www.setn.com'
 
-    temp_base = Base(title=None, content=None, category=None, modified_date=None, media=None)
+    temp_base = Base(title=None,
+                     content=None,
+                     category=None,
+                     modified_date=None,
+                     media=None)
 
     soup = temp_base.get_page(view_all_link, headers)
     sel = soup.find_all('a', class_='gt')
@@ -30,7 +38,13 @@ def setn_crawler(size=10):
 
     article_count = 0
     for url in urls:
-        instance = Base("Title", "Content", "Category", "Modified_Date", "三立", url=url, headers=headers)
+        instance = Base("Title",
+                        "Content",
+                        "Category",
+                        "Modified_Date",
+                        "三立",
+                        url=url,
+                        headers=headers)
         try:
             # print(url)
             soup = instance.url
@@ -49,11 +63,13 @@ def setn_crawler(size=10):
             # print("success__getting__modified_date: ", modified_date)
 
             category_selector = 'meta[property="article:section"]'
-            category = instance.get_category(soup, category_selector)[0]['content']
+            category = instance.get_category(soup,
+                                             category_selector)[0]['content']
             # print("success__getting__category: ", category)
 
             tags = []
-            tags = soup.find('meta', attrs={'name': 'news_keywords'})['content'].split(',')
+            tags = soup.find('meta', attrs={'name': 'news_keywords'
+                                           })['content'].split(',')
             # print("success__getting__tags: ", tags)
 
             content_selector = 'article p'
@@ -90,6 +106,7 @@ def setn_crawler(size=10):
             continue
 
     return article_list
+
 
 # print("import success")
 # result = setn_crawler(size=1)

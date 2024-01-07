@@ -2,14 +2,22 @@
 
 from tryy.base_class import Base
 
+
 def cna_crawler(size=30):
 
     media = '中央社'
-    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"}
-    
+    headers = {
+        "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+    }
+
     article_list = []
 
-    temp_base = Base(title=None, content=None, category=None, modified_date=None, media=None)
+    temp_base = Base(title=None,
+                     content=None,
+                     category=None,
+                     modified_date=None,
+                     media=None)
     soup = temp_base.get_page('https://www.cna.com.tw/list/aall.aspx', headers)
     sel = soup.find('ul', 'mainList imgModule', id='jsMainList').find_all('li')
 
@@ -20,7 +28,13 @@ def cna_crawler(size=30):
 
     news_count = 0
     for url in urls:
-        instance = Base("Title", "Content", "Category", "Modified_Date", "中央社", url=url, headers=headers)
+        instance = Base("Title",
+                        "Content",
+                        "Category",
+                        "Modified_Date",
+                        "中央社",
+                        url=url,
+                        headers=headers)
         try:
             # print(url)
             soup = instance.url
@@ -54,7 +68,7 @@ def cna_crawler(size=30):
 
             # print("success__getting__url_hash: ", instance.url_hash)
             # print("success__getting__cont_hash: ", instance.content_hash, "\n\n")
-            
+
             news_dict = {}
             news_dict['title'] = title
             news_dict['content'] = content
@@ -81,5 +95,6 @@ def cna_crawler(size=30):
             continue
 
     return article_list
+
 
 # result = cna_crawler(size=1)

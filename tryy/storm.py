@@ -2,18 +2,28 @@
 
 from tryy.base_class import Base
 
+
 def storm_crawler(size=10):
 
     media = '風傳媒'
-    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"}
+    headers = {
+        "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+    }
 
     article_list = []
 
-    links = ["https://www.storm.mg/articles", "https://www.storm.mg/articles/2",
-             "https://www.storm.mg/articles/3", "https://www.storm.mg/articles/4",
-             "https://www.storm.mg/articles/5", "https://www.storm.mg/articles/6"]
+    links = [
+        "https://www.storm.mg/articles", "https://www.storm.mg/articles/2",
+        "https://www.storm.mg/articles/3", "https://www.storm.mg/articles/4",
+        "https://www.storm.mg/articles/5", "https://www.storm.mg/articles/6"
+    ]
 
-    temp_base = Base(title=None, content=None, category=None, modified_date=None, media=None)
+    temp_base = Base(title=None,
+                     content=None,
+                     category=None,
+                     modified_date=None,
+                     media=None)
 
     for link in links:
         soup = temp_base.get_page(link, headers)
@@ -27,7 +37,13 @@ def storm_crawler(size=10):
 
     article_count = 0
     for url in urls:
-        instance = Base("Title", "Content", "Category", "Modified_Date", "風傳媒", url=url, headers=headers)
+        instance = Base("Title",
+                        "Content",
+                        "Category",
+                        "Modified_Date",
+                        "風傳媒",
+                        url=url,
+                        headers=headers)
         try:
             # print(url)
             soup = instance.url
@@ -41,7 +57,7 @@ def storm_crawler(size=10):
             modified_date = soup.find('span', id='info_time').text
             modified_date = instance.get_modified_date(modified_date)
             # print("success__getting__modified_date: ", modified_date)
-            
+
             category = []
             category_selector = 'a.tags_link'
             category_set = instance.get_category(soup, category_selector)
@@ -91,5 +107,6 @@ def storm_crawler(size=10):
             continue
 
     return article_list
+
 
 # result = storm_crawler(size=1)

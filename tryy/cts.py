@@ -2,15 +2,24 @@
 
 from tryy.base_class import Base
 
+
 def cts_crawler(size=30):
 
     media = "華視"
-    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"}
+    headers = {
+        "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+    }
 
     article_list = []
 
-    temp_base = Base(title=None, content=None, category=None, modified_date=None, media=None)
-    soup = temp_base.get_page('https://news.cts.com.tw/real/index.html', headers)
+    temp_base = Base(title=None,
+                     content=None,
+                     category=None,
+                     modified_date=None,
+                     media=None)
+    soup = temp_base.get_page('https://news.cts.com.tw/real/index.html',
+                              headers)
     sel = soup.select('div.newslist-container')
     sel = sel[0].find_all('a', href=True)
 
@@ -21,7 +30,13 @@ def cts_crawler(size=30):
 
     news_count = 0
     for url in urls:
-        instance = Base("Title", "Content", "Category", "Modified_Date", "華視", url=url, headers=headers)
+        instance = Base("Title",
+                        "Content",
+                        "Category",
+                        "Modified_Date",
+                        "華視",
+                        url=url,
+                        headers=headers)
         try:
             # print(url)
             soup = instance.url
@@ -78,5 +93,6 @@ def cts_crawler(size=30):
             continue
 
     return article_list
+
 
 # result = cts_crawler(size=1)

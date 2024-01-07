@@ -1,8 +1,11 @@
 # -!- coding: utf-8 -!-
-import requests
-from bs4 import BeautifulSoup
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
+from datetime import timedelta
+from datetime import timezone
 import hashlib
+
+from bs4 import BeautifulSoup
+import requests
 
 # class get_mutiple_link:
 
@@ -11,9 +14,19 @@ import hashlib
 
 #     def get_page
 
+
 class Base:
 
-    def __init__(self, title, content, category, modified_date, media, url=None, url_hash=None, content_hash=None, headers=None):
+    def __init__(self,
+                 title,
+                 content,
+                 category,
+                 modified_date,
+                 media,
+                 url=None,
+                 url_hash=None,
+                 content_hash=None,
+                 headers=None):
         self.title = title
         self.content = content
         self.category = category
@@ -21,8 +34,10 @@ class Base:
         self.media = media
         # self.tags = tags
         self.url = self.get_page(url, headers)
-        self.url_hash = url_hash if url_hash else self.generate_hash(url) if url else None
-        self.content_hash = content_hash if content_hash else self.generate_hash(content) if content else None
+        self.url_hash = url_hash if url_hash else self.generate_hash(
+            url) if url else None
+        self.content_hash = content_hash if content_hash else self.generate_hash(
+            content) if content else None
 
     def get_page(self, url, headers):
         try:
@@ -54,7 +69,7 @@ class Base:
     def get_category(self, soup, category_sel):
         category = soup.select(category_sel)
         return category
-    
+
     # udn
     def find_category(self, soup, type, class_):
         category = soup.find_all(type, class_=class_)
@@ -98,4 +113,3 @@ class Base:
     def generate_hash(self, data):
         result = hashlib.sha1(data.encode('utf-8'))
         return result.hexdigest()
-
