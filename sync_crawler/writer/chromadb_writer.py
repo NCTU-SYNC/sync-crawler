@@ -1,7 +1,11 @@
 from collections.abc import Iterable
 
 import chromadb
-from chromadb.utils import embedding_functions
+from llama_index import Document
+from llama_index import ServiceContext
+from llama_index import VectorStoreIndex
+from llama_index.embeddings import HuggingFaceEmbedding
+from llama_index.vector_stores import ChromaVectorStore
 from typing_extensions import override
 
 from proto import news_pb2
@@ -15,7 +19,8 @@ class ChromaDBWriter(BaseWriter):
         host: str = 'localhost',
         port: str = '8000',
         collection: str = 'news',
-        embedding_function_name: str = 'distiluse-base-multilingual-cased-v1',
+        embedding_function_name:
+        str = 'sentence-transformers/distiluse-base-multilingual-cased-v1',
         in_memory: bool = False,
     ):
         """Initialize ChromaDBWriter.
@@ -25,7 +30,7 @@ class ChromaDBWriter(BaseWriter):
             port: Port of ChromaDB server.
             collection: Name of collection.
             embedding_function_name: Name of embedding model. All available
-                models can be found [here](https://www.sbert.net/docs/pretrained_models.html)
+                models can be found [here](https://huggingface.co/models?language=zh)
             in_memory: Whether to use an in-memory database, usually for testing and development.
                 If True, `host` and `port` will be ignored.
         """
@@ -33,16 +38,22 @@ class ChromaDBWriter(BaseWriter):
             self._client = chromadb.EphemeralClient()
         else:
             self._client = chromadb.HttpClient(host=host, port=port)
-        self._embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name=embedding_function_name, device=None)
 
-        self._collection = self._client.get_or_create_collection(
-            collection, embedding_function=self._embedding_function)
+        self._collection = self._client.get_or_create_collection(collection)
+
+        vector_store = ChromaVectorStore(chroma_collection=self._collection)
+
+        embed_model = HuggingFaceEmbedding(model_name=embedding_function_name)
+        service_context = ServiceContext.from_defaults(embed_model=embed_model,
+                                                       llm=None)
+
+        self._index = VectorStoreIndex.from_vector_store(
+            vector_store=vector_store, service_context=service_context)
 
     @override
     def put(self, _ids, messages: Iterable[news_pb2.News]):  # pylint: disable=no-member
-        _ids = list(map(str, _ids))
-        documents = list(map(lambda msg: ' '.join(msg.content), messages))
-        embeddings = self._embedding_function(documents)
-
-        self._collection.add(ids=_ids, embeddings=embeddings)
+        docs = [
+            Document(doc_id=str(_id), text=' '.join(msg.content))
+            for _id, msg in zip(_ids, messages)
+        ]
+        self._index.insert_nodes(docs)

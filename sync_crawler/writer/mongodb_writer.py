@@ -1,3 +1,4 @@
+from google.protobuf import json_format
 import pymongo
 from typing_extensions import override
 
@@ -32,8 +33,9 @@ class MongoDBWriter(BaseWriter):
 
     @override
     def put(self, _ids, messages):
-        message_dicts = map(self._merge_id_and_data, _ids, messages)
+        message_dicts = ({
+            '_id': str(_id),
+            **json_format.MessageToDict(msg)
+        } for _id, msg in zip(_ids, messages))
 
-        result = self._collection.insert_many(message_dicts)
-
-        return result
+        self._collection.insert_many(message_dicts)
