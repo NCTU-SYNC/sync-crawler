@@ -1,19 +1,33 @@
-import requests
-from bs4 import BeautifulSoup
+from abc import ABC
+from abc import abstractmethod
 import hashlib
-from abc import ABC, abstractmethod
+
+from bs4 import BeautifulSoup
+import requests
+
 
 class BaseCrawler(ABC):
 
-    def __init__(self, title, content, category, modified_date, media, url=None, url_hash=None, content_hash=None, headers=None):
+    def __init__(self,
+                 title,
+                 content,
+                 category,
+                 modified_date,
+                 media,
+                 url=None,
+                 url_hash=None,
+                 content_hash=None,
+                 headers=None):
         self.title = title
         self.content = content
         self.category = category
         self.modified_date = self.get_modified_date(modified_date)
         self.media = media
         self.url = self.get_page(url, headers)
-        self.url_hash = url_hash if url_hash else self.generate_hash(url) if url else None
-        self.content_hash = content_hash if content_hash else self.generate_hash(content) if content else None
+        self.url_hash = url_hash if url_hash else self.generate_hash(
+            url) if url else None
+        self.content_hash = content_hash if content_hash else self.generate_hash(
+            content) if content else None
 
     @abstractmethod
     def get_page(self, url, headers):
@@ -41,13 +55,12 @@ class BaseCrawler(ABC):
         for s in content_sel:
             s = s.text.replace('\n', '')
             article_content.append(s)
-            content_str += s
         return article_content
 
     def get_category(self, soup, category_sel):
         category = soup.select(category_sel)
         return category
-    
+
     def find_category(self, soup, type, class_):
         category = soup.find_all(type, class_=class_)
         for c in category:
@@ -71,4 +84,3 @@ class BaseCrawler(ABC):
     def generate_hash(self, data):
         result = hashlib.sha1(data.encode('utf-8'))
         return result.hexdigest()
-
