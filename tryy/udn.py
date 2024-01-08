@@ -1,26 +1,35 @@
 # -!- coding: utf-8 -!-
 
-from tryy.base_class import Base
 import re
+
+from tryy.base_class import Base
+
 
 def udn_crawler(size=10):
 
     print("in udn")
 
     media = '聯合'
-    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"}
+    headers = {
+        "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+    }
 
     article_list = []
 
     link = 'https://tfc-taiwan.org.tw/articles/report'
     urls = []
 
-    temp_base = Base(title=None, content=None, category=None, modified_date=None, media=None)
-    
+    temp_base = Base(title=None,
+                     content=None,
+                     category=None,
+                     modified_date=None,
+                     media=None)
+
     soup = temp_base.get_page(link, headers)
     sel = soup.find('div', class_='view-content')
     sel = soup.find_all('h3', class_='entity-list-title')
-    
+
     for s in sel:
         temp = s.find('a')
         u = temp.get('href')
@@ -29,7 +38,13 @@ def udn_crawler(size=10):
 
     article_count = 0
     for url in urls:
-        instance = Base("Title", "Content", "Category", "Modified_Date", "聯合", url=url, headers=headers)
+        instance = Base("Title",
+                        "Content",
+                        "Category",
+                        "Modified_Date",
+                        "聯合",
+                        url=url,
+                        headers=headers)
         try:
             # print(url)
             soup = instance.url
@@ -89,5 +104,6 @@ def udn_crawler(size=10):
             continue
 
     return article_list
+
 
 # result = udn_crawler(size=1)

@@ -28,6 +28,10 @@ class BaseCrawler(ABC):
             url) if url else None
         self.content_hash = content_hash if content_hash else self.generate_hash(
             content) if content else None
+        self.url_hash = url_hash if url_hash else self.generate_hash(
+            url) if url else None
+        self.content_hash = content_hash if content_hash else self.generate_hash(
+            content) if content else None
 
     @abstractmethod
     def get_page(self, url, headers):
