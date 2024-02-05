@@ -9,7 +9,7 @@ class cnaCrawler(BaseCrawler):
 
     def cna_urls(self, headers):
         url = 'https://www.cna.com.tw/list/aall.aspx'
-        soup = super().get_page(url, headers)
+        soup = self.get_page(url, headers)
         sel = soup.find('ul', 'mainList imgModule',
                         id='jsMainList').find_all('li')
         urls = [s.find('a')['href'] for s in sel if s.find('a')]
@@ -17,12 +17,12 @@ class cnaCrawler(BaseCrawler):
 
     def cna_modified_date(self, soup):
         modified_date = soup.find('div', class_='updatetime').text
-        modified_date = super().get_modified_date(modified_date)
+        modified_date = self.get_modified_date(modified_date)
         return modified_date
 
     def cna_category(self, soup):
         category_selector = 'div.breadcrumb a'
-        category = super().get_category(soup, category_selector)
+        category = self.get_category(soup, category_selector)
         category = category[1].text
         return category
 
@@ -34,5 +34,5 @@ class cnaCrawler(BaseCrawler):
     def cna_content(self, soup, title):
         content = soup.find("div", class_="paragraph")
         content_selector = 'p:lang(zh)'
-        content = super().get_content(content, content_selector, title)
+        content = self.get_content(content, content_selector, title)
         return content

@@ -1,11 +1,11 @@
-# -!- coding: utf-8 -!-
+1  # -!- coding: utf-8 -!-
 
-from tryy.base_class import Base
+from tryy.base_class import BaseCrawler
 
 
 def setn_crawler(size=10):
 
-    # print("in setn")
+    print("in setn")
 
     media = '三立'
     headers = {
@@ -18,11 +18,11 @@ def setn_crawler(size=10):
     view_all_link = "https://www.setn.com/ViewAll.aspx"
     base = 'https://www.setn.com'
 
-    temp_base = Base(title=None,
-                     content=None,
-                     category=None,
-                     modified_date=None,
-                     media=None)
+    temp_base = BaseCrawler(title=None,
+                            content=None,
+                            category=None,
+                            modified_date=None,
+                            media=None)
 
     soup = temp_base.get_page(view_all_link, headers)
     sel = soup.find_all('a', class_='gt')
@@ -38,13 +38,13 @@ def setn_crawler(size=10):
 
     article_count = 0
     for url in urls:
-        instance = Base("Title",
-                        "Content",
-                        "Category",
-                        "Modified_Date",
-                        "三立",
-                        url=url,
-                        headers=headers)
+        instance = BaseCrawler("Title",
+                               "Content",
+                               "Category",
+                               "Modified_Date",
+                               "三立",
+                               url=url,
+                               headers=headers)
         try:
             # print(url)
             soup = instance.url
@@ -91,7 +91,7 @@ def setn_crawler(size=10):
                 'content_hash': instance.content_hash
             }
 
-            # print(news_dict)
+            print(news_dict)
             article_list.append(news_dict)
 
             article_count += 1
@@ -109,4 +109,4 @@ def setn_crawler(size=10):
 
 
 # print("import success")
-# result = setn_crawler(size=1)
+result = setn_crawler(size=1)
