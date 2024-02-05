@@ -1,8 +1,8 @@
 from proto.news_pb2 import News
-from tryy.base_class import BaseCrawler
+from sync_crawler.crawler.base_crawler import BaseCrawler
 
 
-class ctsCrawler(BaseCrawler):
+class CtsCrawler(BaseCrawler):
 
     def __init__(self, custom_property, *args, **kwargs):
         # 呼叫父類別的 __init__ 方法，並傳遞必要的參數

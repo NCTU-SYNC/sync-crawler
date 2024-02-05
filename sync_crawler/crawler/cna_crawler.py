@@ -1,8 +1,8 @@
 from proto.news_pb2 import News
-from tryy.base_class import BaseCrawler
+from sync_crawler.crawler.base_crawler import BaseCrawler
 
 
-class cnaCrawler(BaseCrawler):
+class CnaCrawler(BaseCrawler):
 
     def __init__(self, custom_property, *args, **kwargs):
         super().__init__(*args, **kwargs)
