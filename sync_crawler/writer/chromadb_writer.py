@@ -1,11 +1,10 @@
 from collections.abc import Iterable
 
 import chromadb
-from llama_index import Document
-from llama_index import ServiceContext
-from llama_index import VectorStoreIndex
-from llama_index.embeddings import HuggingFaceEmbedding
-from llama_index.vector_stores import ChromaVectorStore
+from llama_index.core import Document
+from llama_index.core import VectorStoreIndex
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.vector_stores.chroma import ChromaVectorStore
 from typing_extensions import override
 
 from proto import news_pb2
@@ -41,14 +40,10 @@ class ChromaDBWriter(BaseWriter):
 
         self._collection = self._client.get_or_create_collection(collection)
 
-        vector_store = ChromaVectorStore(chroma_collection=self._collection)
-
-        embed_model = HuggingFaceEmbedding(model_name=embedding_function_name)
-        service_context = ServiceContext.from_defaults(embed_model=embed_model,
-                                                       llm=None)
-
         self._index = VectorStoreIndex.from_vector_store(
-            vector_store=vector_store, service_context=service_context)
+            vector_store=ChromaVectorStore(chroma_collection=self._collection),
+            embed_model=HuggingFaceEmbedding(
+                model_name=embedding_function_name))
 
     @override
     def put(self, _ids, messages: Iterable[news_pb2.News]):  # pylint: disable=no-member
