@@ -24,27 +24,23 @@ class BaseCrawler(ABC):
         self.modified_date = self.get_modified_date(modified_date)
         self.media = media
         self.url = self.get_page(url, headers)
-        self.url_hash = url_hash if url_hash else self.generate_hash(
-            url) if url else None
-        self.content_hash = content_hash if content_hash else self.generate_hash(
-            content) if content else None
-        self.url_hash = url_hash if url_hash else self.generate_hash(
-            url) if url else None
-        self.content_hash = content_hash if content_hash else self.generate_hash(
-            content) if content else None
+        self.url_hash = self.generate_hash(url)
+        self.content_hash = self.generate_hash(content)
 
-    @abstractmethod
-    def get_page(self, url, headers):
+    def get_page(self, url, timeout):
         try:
-            r = requests.get(url, headers)
+            r = requests.get(url, self.headers, timeout=timeout)
             r.encoding = 'UTF-8'
             soup = BeautifulSoup(r.text, "html.parser")
             if soup is None:
-                print("Soup object is None. Parsing failed.")
+                raise ValueError("Soup object is None. Parsing failed.")
             return soup
         except requests.RequestException as e:
-            print(f"Error fetching page")
+            print(f"Error fetching page: {e}")
             return None
+        except Exception as e:
+            print(f"Error: {e}")
+            raise
 
     def get_title(self, soup, title_sel):
         title = soup.select_one(title_sel)

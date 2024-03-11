@@ -1,15 +1,13 @@
 from proto.news_pb2 import News
 from sync_crawler.crawler.base_crawler import BaseCrawler
 
+url = 'https://www.cna.com.tw/list/aall.aspx'
+
 
 class CnaCrawler(BaseCrawler):
 
-    def __init__(self, custom_property, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def cna_urls(self, headers):
-        url = 'https://www.cna.com.tw/list/aall.aspx'
-        soup = self.get_page(url, headers)
+    def cna_urls(self, timeout: int):
+        soup = self.get_page(url, timeout)
         sel = soup.find('ul', 'mainList imgModule',
                         id='jsMainList').find_all('li')
         urls = [s.find('a')['href'] for s in sel if s.find('a')]
@@ -31,7 +29,7 @@ class CnaCrawler(BaseCrawler):
         tags = [tag.get_text().replace('#', '') for tag in tag_links]
         return tags
 
-    def cna_content(self, soup, title):
+    def cna_content(self, soup, title: str):
         content = soup.find("div", class_="paragraph")
         content_selector = 'p:lang(zh)'
         content = self.get_content(content, content_selector, title)

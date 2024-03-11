@@ -1,16 +1,13 @@
 from proto.news_pb2 import News
 from sync_crawler.crawler.base_crawler import BaseCrawler
 
+url = 'https://www.cna.com.tw/list/aall.aspx'
+
 
 class CtsCrawler(BaseCrawler):
 
-    def __init__(self, custom_property, *args, **kwargs):
-        # 呼叫父類別的 __init__ 方法，並傳遞必要的參數
-        super().__init__(*args, **kwargs)
-
-    def cts_urls(self, headers):
-        url = 'https://news.cts.com.tw/real/index.html'
-        soup = self.get_page(url, headers)
+    def cts_urls(self, timeout: int):
+        soup = self.get_page(url, timeout)
         sel = soup.select('div.newslist-container')
         sel = sel[0].find_all('a', href=True)
         urls = []
@@ -36,7 +33,7 @@ class CtsCrawler(BaseCrawler):
             tags.append(tag.text)
         return tags
 
-    def cts_content(self, soup, title):
+    def cts_content(self, soup, title: str):
         content_selector = 'div.artical-content'
         content = self.get_content(soup, content_selector, title)
         return content
