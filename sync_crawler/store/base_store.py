@@ -1,6 +1,5 @@
 import abc
-from collections.abc import Callable
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 
 from google.protobuf import message
 

@@ -1,10 +1,10 @@
-from collections.abc import Callable
 import itertools
 import os
 import uuid
+from collections.abc import Callable
 
-from google.protobuf import message
 import lmdb
+from google.protobuf import message
 from typing_extensions import override
 
 from sync_crawler.store.base_store import BaseStore
@@ -15,11 +15,10 @@ def _default_key_factory(_m: message.Message) -> bytes:
 
 
 class LmdbStore(BaseStore):
-
     def __init__(
         self,
         deserializer: Callable[[bytes], message.Message],
-        location=os.path.join('tmp', 'news'),
+        location=os.path.join("tmp", "news"),
         key_factory: Callable[[message.Message], bytes] = _default_key_factory,
     ) -> None:
         """Initialize LmdbStore.
@@ -41,12 +40,13 @@ class LmdbStore(BaseStore):
 
     @override
     def put(self, messages):
-        key_value_pairs = ((self._key_factory(msg), msg.SerializeToString())
-                           for msg in messages)
+        key_value_pairs = (
+            (self._key_factory(msg), msg.SerializeToString()) for msg in messages
+        )
 
         with (
-                self._env.begin(write=True) as txn,
-                txn.cursor() as cur,
+            self._env.begin(write=True) as txn,
+            txn.cursor() as cur,
         ):
             cur.putmulti(key_value_pairs)
 

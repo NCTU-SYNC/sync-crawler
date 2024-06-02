@@ -6,9 +6,7 @@ from google.protobuf import message
 
 
 class SupportsStr(Protocol):
-
-    def __str__(self) -> str:
-        ...
+    def __str__(self) -> str: ...
 
 
 class BaseWriter(abc.ABC):

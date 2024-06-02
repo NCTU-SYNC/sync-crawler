@@ -1,3 +1,7 @@
+[project]
+requires-python = ">=3.11,<3.12"
+
+
 [tool.poetry]
 name = "sync-crawler"
 version = "0.1.0"
@@ -19,31 +23,16 @@ llama-index-embeddings-huggingface = "^0.1.3"
 
 
 [tool.poetry.group.dev.dependencies]
-isort = "^5.12.0"
-pylint = "^3.0.0"
-yapf = "^0.40.2"
+ruff = "0.4.7"
 pre-commit = "^3.4.0"
 pymongo-inmemory = "^0.3.1"
-pydocstyle = "^6.3.0"
 
-[tool.yapf]
-based_on_style = "google"
+[tool.ruff]
+exclude = ["proto"]
 
-[tool.isort]
-profile = "google"
+[tool.ruff.lint]
+extend-select = ["I"]
 
-[tool.pydocstyle]
-convention = "google"
-add_ignore = [
-    "D100",
-    "D101",
-    "D102",
-    "D103",
-    "D104",
-    "D105",
-    "D106",
-    "D107",
-]
 
 [build-system]
 requires = ["poetry-core"]
