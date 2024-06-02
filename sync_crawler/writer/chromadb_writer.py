@@ -6,7 +6,7 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.vector_stores.chroma import ChromaVectorStore
 from typing_extensions import override
 
-from proto import news_pb2
+from sync_crawler.protos import news_pb2
 from sync_crawler.writer.base_writer import BaseWriter
 
 

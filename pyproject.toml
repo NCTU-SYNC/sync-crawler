@@ -9,9 +9,12 @@ description = ""
 authors = ["David Chiu <david20571015@gmail.com>"]
 readme = "README.md"
 
+[tool.poetry.scripts]
+gen-protos = "sync_crawler.gen_protos:generate"
+
 [tool.poetry.dependencies]
 python = ">=3.11,<3.12"
-protobuf = "^4.24.3"
+protobuf = "^5.27.0"
 lmdb = "^1.4.1"
 typing-extensions = "^4.8.0"
 pymongo = "^4.5.0"
@@ -27,8 +30,10 @@ ruff = "0.4.7"
 pre-commit = "^3.4.0"
 pymongo-inmemory = "^0.3.1"
 
-[tool.ruff]
-exclude = ["proto"]
+
+[tool.poetry.group.proto.dependencies]
+grpcio-tools = "^1.64.0"
+
 
 [tool.ruff.lint]
 extend-select = ["I"]

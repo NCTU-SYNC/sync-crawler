@@ -12,21 +12,19 @@ This project use [poetry](https://python-poetry.org/) to manage dependencies. Pl
 
 ```bash
 poetry install --without dev
+poetry run gen-protos
 ```
 
 ### Development
 
 ```bash
 poetry install
+poetry run gen-protos
 poetry run pre-commit install
 ```
 
 ## Protocol Buffer Code Generation
 
-> You can just use the pre-generated code in this repository or regenerate it by yourself.
-
-Please follow the instructions of the [protobuf](https://github.com/protocolbuffers/protobuf) repository to install the compiler `protoc`.
-
 ```bash
-protoc --python_out=pyi_out:. proto/news.proto
+poetry run gen-protos
 ```
