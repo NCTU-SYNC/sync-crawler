@@ -1,3 +1,6 @@
+[project]
+requires-python = ">=3.12"
+
 [tool.poetry]
 name = "sync-crawler"
 version = "0.1.0"
@@ -6,10 +9,9 @@ authors = ["David Chiu <david20571015@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.12"
+python = "^3.12"
 protobuf = "^3.20.0"  # chroma needs the version of protobuf to 3.20.x or lower
 lmdb = "^1.4.1"
-typing-extensions = "^4.8.0"
 pymongo = "^4.5.0"
 chromadb = "^0.4.14"
 llama-index = "^0.10.11"

@@ -3,9 +3,9 @@ import os
 import pickle
 import uuid
 from collections.abc import Callable, Iterable
+from typing import override
 
 import lmdb
-from typing_extensions import override
 
 from sync_crawler.models import News
 from sync_crawler.store.base_store import BaseStore

@@ -1,8 +1,9 @@
+from typing import override
+
 import chromadb
 from llama_index.core import Document, VectorStoreIndex
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.vector_stores.chroma import ChromaVectorStore
-from typing_extensions import override
 
 from sync_crawler.models import News
 from sync_crawler.writer.base_writer import BaseWriter

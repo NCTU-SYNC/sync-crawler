@@ -1,6 +1,7 @@
+from typing import override
+
 import pymongo
 from bson import ObjectId
-from typing_extensions import override
 
 from sync_crawler.writer.base_writer import BaseWriter
 
