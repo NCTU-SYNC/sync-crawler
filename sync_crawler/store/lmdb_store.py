@@ -3,6 +3,7 @@ import os
 import pickle
 import uuid
 from collections.abc import Callable, Iterable
+from contextlib import closing
 from typing import override
 
 import lmdb
@@ -40,7 +41,7 @@ class LmdbStore(BaseStore):
 
         with (
             self._env.begin(write=True) as txn,
-            txn.cursor() as cur,
+            closing(txn.cursor()) as cur,
         ):
             cur.putmulti(key_value_pairs)
 
@@ -48,8 +49,11 @@ class LmdbStore(BaseStore):
     def pop(self, nums=1) -> Iterable[News]:
         values: Iterable[News] = []
 
-        with self._env.begin(write=True) as txn:
-            for key, value in itertools.islice(txn.cursor(), nums):
+        with (
+            self._env.begin(write=True) as txn,
+            closing(txn.cursor()) as cur,
+        ):
+            for key, value in itertools.islice(cur, nums):
                 values.append(pickle.loads(value))
                 txn.delete(key)
 
