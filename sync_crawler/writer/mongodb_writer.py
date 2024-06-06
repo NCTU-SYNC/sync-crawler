@@ -1,5 +1,5 @@
 import pymongo
-from google.protobuf import json_format
+from bson import ObjectId
 from typing_extensions import override
 
 from sync_crawler.writer.base_writer import BaseWriter
@@ -24,7 +24,7 @@ class MongoDBWriter(BaseWriter):
                 If True, `url` will be ignored.
         """
         if in_memory:
-            import pymongo_inmemory  # pylint: disable=import-outside-toplevel
+            import pymongo_inmemory
 
             self._client = pymongo_inmemory.MongoClient()
         else:
@@ -32,10 +32,8 @@ class MongoDBWriter(BaseWriter):
         self._collection = self._client[database][collection]
 
     @override
-    def put(self, _ids, messages):
-        message_dicts = (
-            {"_id": str(_id), **json_format.MessageToDict(msg)}
-            for _id, msg in zip(_ids, messages)
+    def put(self, ids, news):
+        news_dicts = (
+            {"_id": ObjectId(str(_id)), **ns.model_dump()} for _id, ns in zip(ids, news)
         )
-
-        self._collection.insert_many(message_dicts)
+        self._collection.insert_many(news_dicts)

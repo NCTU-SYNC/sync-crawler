@@ -2,7 +2,7 @@ import abc
 from collections.abc import Iterable
 from typing import Protocol
 
-from google.protobuf import message
+from sync_crawler.models import News
 
 
 class SupportsStr(Protocol):
@@ -15,13 +15,13 @@ class BaseWriter(abc.ABC):
     @abc.abstractmethod
     def put(
         self,
-        _ids: Iterable[SupportsStr],
-        messages: Iterable[message.Message],
+        ids: Iterable[SupportsStr],
+        news: Iterable[News],
     ):
         """Store data to storage.
 
         Args:
-            _ids: Object IDs of messages.
-            messages: Data to be stored.
+            ids: Object IDs of each news.
+            news: News to be stored.
         """
         raise NotImplementedError

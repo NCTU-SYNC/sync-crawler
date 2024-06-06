@@ -1,12 +1,10 @@
-from collections.abc import Iterable
-
 import chromadb
 from llama_index.core import Document, VectorStoreIndex
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.vector_stores.chroma import ChromaVectorStore
 from typing_extensions import override
 
-from sync_crawler.protos import news_pb2
+from sync_crawler.models import News
 from sync_crawler.writer.base_writer import BaseWriter
 
 
@@ -43,9 +41,15 @@ class ChromaDBWriter(BaseWriter):
         )
 
     @override
-    def put(self, _ids, messages: Iterable[news_pb2.News]):  # pylint: disable=no-member
+    def put(self, ids, news):
         docs = [
-            Document(doc_id=str(_id), text=" ".join(msg.content))
-            for _id, msg in zip(_ids, messages)
+            Document(
+                doc_id=str(id_),
+                text=ns.text,
+                extra_info=ns.metadata,
+                excluded_embed_metadata_keys=News.excluded_metadata_keys,
+                excluded_llm_metadata_keys=News.excluded_metadata_keys,
+            )
+            for id_, ns in zip(ids, news)
         ]
         self._index.insert_nodes(docs)
