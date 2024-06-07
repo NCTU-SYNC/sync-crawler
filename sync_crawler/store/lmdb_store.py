@@ -4,7 +4,7 @@ import pickle
 import uuid
 from collections.abc import Callable, Iterable
 from contextlib import closing
-from typing import override
+from typing import Optional, override
 
 import lmdb
 
@@ -36,7 +36,7 @@ class LmdbStore(BaseStore):
         self._key_factory = key_factory
 
     @override
-    def put(self, news: Iterable[News]):
+    def write(self, news: Iterable[News]):
         key_value_pairs = ((self._key_factory(ns), pickle.dumps(ns)) for ns in news)
 
         with (
@@ -46,18 +46,13 @@ class LmdbStore(BaseStore):
             cur.putmulti(key_value_pairs)
 
     @override
-    def pop(self, nums=1) -> Iterable[News]:
-        values: Iterable[News] = []
-
+    def read(self, num: Optional[int] = None) -> Iterable[News]:
         with (
             self._env.begin(write=True) as txn,
             closing(txn.cursor()) as cur,
         ):
-            for key, value in itertools.islice(cur, nums):
-                values.append(pickle.loads(value))
-                txn.delete(key)
-
-        return values
+            for key, value in itertools.islice(cur, num):
+                yield pickle.loads(cur.pop(key))
 
     def __del__(self):
         self._env.close()

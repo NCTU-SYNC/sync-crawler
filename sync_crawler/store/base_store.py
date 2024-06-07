@@ -1,30 +1,31 @@
-import abc
+from abc import ABC, abstractmethod
 from collections.abc import Iterable
+from typing import Optional, override
 
+from sync_crawler.handlers import DataReader, DataWriter
 from sync_crawler.models import News
 
 
-class BaseStore(abc.ABC):
-    """Base class for store implementation."""
-
-    @abc.abstractmethod
-    def put(self, news: Iterable[News]):
-        """Store data to storage.
-
-        Args:
-            news: News to be stored.
-        """
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    def pop(self, nums=1) -> Iterable[News]:
-        """Fetch data from store then delete them.
+class BaseStore(DataReader, DataWriter, ABC):
+    @override
+    @abstractmethod
+    def read(self, num: Optional[int] = None) -> Iterable[News]:
+        """Read data from store.
 
         Args:
-            nums: Number of data to be popped. If the remaining data is less than `nums`, all
-                remaining data will be popped.
+            num: Number of data to read. Defaults to None, read all data.
 
         Returns:
-            List of popped data.
+            Iterable of News.
         """
-        raise NotImplementedError
+        pass
+
+    @override
+    @abstractmethod
+    def write(self, news: Iterable[News]):
+        """Write data to store.
+
+        Args:
+            news: Iterable of News to be written.
+        """
+        pass

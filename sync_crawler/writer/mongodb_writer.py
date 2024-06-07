@@ -33,8 +33,8 @@ class MongoDBWriter(BaseWriter):
         self._collection = self._client[database][collection]
 
     @override
-    def put(self, ids, news):
+    def write(self, news_with_id):
         news_dicts = (
-            {"_id": ObjectId(str(_id)), **ns.model_dump()} for _id, ns in zip(ids, news)
+            {"_id": ObjectId(str(_id)), **ns.model_dump()} for _id, ns in news_with_id
         )
         self._collection.insert_many(news_dicts)

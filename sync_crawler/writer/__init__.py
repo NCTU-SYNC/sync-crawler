@@ -1,6 +1,7 @@
 """Store data to a host database."""
 
-from sync_crawler.writer.chromadb_writer import ChromaDBWriter
-from sync_crawler.writer.mongodb_writer import MongoDBWriter
+from .base_writer import BaseWriter as BaseWriter
+from .chromadb_writer import ChromaDBWriter
+from .mongodb_writer import MongoDBWriter
 
 __all__ = ["ChromaDBWriter", "MongoDBWriter"]

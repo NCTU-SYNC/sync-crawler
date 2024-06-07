@@ -1,7 +1,8 @@
-import abc
+from abc import ABC, abstractmethod
 from collections.abc import Iterable
-from typing import Protocol
+from typing import Protocol, override
 
+from sync_crawler.handlers import DataWriter
 from sync_crawler.models import News
 
 
@@ -9,19 +10,16 @@ class SupportsStr(Protocol):
     def __str__(self) -> str: ...
 
 
-class BaseWriter(abc.ABC):
-    """Base class for writer implementation."""
-
-    @abc.abstractmethod
-    def put(
+class BaseWriter(DataWriter, ABC):
+    @override
+    @abstractmethod
+    def write(
         self,
-        ids: Iterable[SupportsStr],
-        news: Iterable[News],
+        news_with_id: Iterable[tuple[SupportsStr, News]],
     ):
         """Store data to storage.
 
         Args:
-            ids: Object IDs of each news.
-            news: News to be stored.
+            news_with_id: Iterable of tuple of id and News.
         """
-        raise NotImplementedError
+        pass

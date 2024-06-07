@@ -42,7 +42,7 @@ class ChromaDBWriter(BaseWriter):
         )
 
     @override
-    def put(self, ids, news):
+    def write(self, news_with_id):
         docs = [
             Document(
                 doc_id=str(id_),
@@ -51,6 +51,6 @@ class ChromaDBWriter(BaseWriter):
                 excluded_embed_metadata_keys=News.excluded_metadata_keys,
                 excluded_llm_metadata_keys=News.excluded_metadata_keys,
             )
-            for id_, ns in zip(ids, news)
+            for id_, ns in news_with_id
         ]
         self._index.insert_nodes(docs)
