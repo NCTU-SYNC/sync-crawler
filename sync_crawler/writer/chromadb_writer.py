@@ -15,7 +15,7 @@ class ChromaDBWriter(BaseWriter):
         host: str = "localhost",
         port: str = "8000",
         collection: str = "news",
-        embedding_function_name: str = "sentence-transformers/distiluse-base-multilingual-cased-v1",
+        embedding_model: str = "sentence-transformers/distiluse-base-multilingual-cased-v1",
         in_memory: bool = False,
     ):
         """Initialize ChromaDBWriter.
@@ -24,7 +24,7 @@ class ChromaDBWriter(BaseWriter):
             host: Host of ChromaDB server.
             port: Port of ChromaDB server.
             collection: Name of collection.
-            embedding_function_name: Name of embedding model. All available
+            embedding_model: Name of embedding model. All available
                 models can be found [here](https://huggingface.co/models?language=zh)
             in_memory: Whether to use an in-memory database, usually for testing and development.
                 If True, `host` and `port` will be ignored.
@@ -38,7 +38,7 @@ class ChromaDBWriter(BaseWriter):
 
         self._index = VectorStoreIndex.from_vector_store(
             vector_store=ChromaVectorStore(chroma_collection=self._collection),
-            embed_model=HuggingFaceEmbedding(model_name=embedding_function_name),
+            embed_model=HuggingFaceEmbedding(model_name=embedding_model),
         )
 
     @override
