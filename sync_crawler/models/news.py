@@ -1,6 +1,5 @@
 from collections.abc import Sequence
 from datetime import datetime
-from typing import Any, ClassVar
 
 import pydantic
 
@@ -18,15 +17,6 @@ class News(pydantic.BaseModel):
 
     model_config = pydantic.ConfigDict(extra="forbid")
 
-    excluded_metadata_keys: ClassVar = ["modified_date"]
-
     @property
     def text(self) -> str:
         return " ".join(self.content)
-
-    @property
-    def metadata(self) -> dict[str, Any]:
-        return self.model_dump(
-            mode="json",  # use json mode to convert `modified_date` to string
-            include={"title", "category", "modified_date"},
-        )

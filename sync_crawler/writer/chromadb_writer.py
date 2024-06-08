@@ -41,15 +41,23 @@ class ChromaDBWriter(BaseWriter):
             embed_model=HuggingFaceEmbedding(model_name=embedding_model),
         )
 
+    @staticmethod
+    def _get_metadata(news: News):
+        return news.model_dump(include={"title", "category"}) | {
+            "modified_date": news.modified_date.timestamp()
+        }
+
+    excluded_metadata_keys = ["modified_date"]
+
     @override
     def write(self, news_with_id):
         docs = [
             Document(
                 doc_id=str(id_),
                 text=ns.text,
-                extra_info=ns.metadata,
-                excluded_embed_metadata_keys=News.excluded_metadata_keys,
-                excluded_llm_metadata_keys=News.excluded_metadata_keys,
+                extra_info=self._get_metadata(ns),
+                excluded_embed_metadata_keys=self.excluded_metadata_keys,
+                excluded_llm_metadata_keys=self.excluded_metadata_keys,
             )
             for id_, ns in news_with_id
         ]
