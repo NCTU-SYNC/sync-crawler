@@ -14,7 +14,7 @@ class ChromaDBWriter(BaseWriter):
     def __init__(
         self,
         host: str = "localhost",
-        port: str = "8000",
+        port: int = 8000,
         token: str = "",
         collection: str = "news",
         embedding_model: str = "sentence-transformers/distiluse-base-multilingual-cased-v1",
