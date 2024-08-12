@@ -11,12 +11,27 @@ This project use [poetry](https://python-poetry.org/) to manage dependencies. Pl
 ### Execution Only
 
 ```bash
-poetry install --without dev
+# Crawler and mongodb client
+poetry install
+
+# Or
+
+# Crawler, mongodb client and chromadb client
+# To store data in chromadb, you might need GPUs for execute embedding models
+poetry install --with chroma
 ```
 
 ### Development
 
 ```bash
-poetry install
+# Crawler and mongodb client
+poetry install --dev
+poetry run pre-commit install
+
+# Or
+
+# Crawler, mongodb client and chromadb client
+# To store data in chromadb, you might need GPUs for execute embedding models
+poetry install --dev --with chroma
 poetry run pre-commit install
 ```
