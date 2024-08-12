@@ -25,13 +25,13 @@ poetry install --with chroma
 
 ```bash
 # Crawler and mongodb client
-poetry install --dev
+poetry install --with dev
 poetry run pre-commit install
 
 # Or
 
 # Crawler, mongodb client and chromadb client
 # To store data in chromadb, you might need GPUs for execute embedding models
-poetry install --dev --with chroma
+poetry install --with dev,chroma
 poetry run pre-commit install
 ```
