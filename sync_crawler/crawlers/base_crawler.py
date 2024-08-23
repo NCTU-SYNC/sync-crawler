@@ -1,4 +1,5 @@
 import hashlib
+import logging
 from abc import ABC, abstractmethod
 from collections.abc import Iterable
 from datetime import datetime
@@ -19,6 +20,8 @@ def ignore_exception(func):
 
 
 class BaseCrawler(DataReader, ABC):
+    media_name: str
+
     @override
     @abstractmethod
     def read(self, start_from: datetime) -> Iterable[News]:
@@ -34,3 +37,7 @@ class BaseCrawler(DataReader, ABC):
 
     def hash(self, data: str) -> str:
         return hashlib.sha1(data.encode("utf-8")).hexdigest()
+
+    @property
+    def logger(self) -> logging.Logger:
+        return logging.getLogger(self.media_name)
