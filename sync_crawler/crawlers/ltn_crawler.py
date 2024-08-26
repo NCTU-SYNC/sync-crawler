@@ -62,7 +62,10 @@ class LtnCrawler(BaseCrawler):
 
         soup = bs4.BeautifulSoup(response.text, "html.parser")
 
-        title = soup.select("[itemprop=articleBody] > h1")[0].text.strip()
+        title_elements = soup.select("[itemprop=articleBody] > h1")
+        if not title_elements:
+            raise ValueError("Title element not found.")
+        title = title_elements[0].text.strip()
         content = [
             tag.text.strip()
             for tag in soup.select(
