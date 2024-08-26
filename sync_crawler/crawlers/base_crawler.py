@@ -9,16 +9,6 @@ from sync_crawler.handlers import DataReader
 from sync_crawler.models import News
 
 
-def ignore_exception(func):
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception:
-            return None
-
-    return wrapper
-
-
 class BaseCrawler(DataReader, ABC):
     media_name: str
 

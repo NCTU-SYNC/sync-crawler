@@ -1,21 +1,22 @@
 from collections.abc import Iterable
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import datetime
 from itertools import count
+from typing import Optional
 
 import bs4
 import requests
 from dateutil.parser import parse
 
-from sync_crawler.crawlers.base_crawler import BaseCrawler, ignore_exception
+from sync_crawler.crawlers.base_crawler import BaseCrawler
 from sync_crawler.models.news import News
 
 
 @dataclass
 class LtnNewsMetadata:
     publish_time: datetime
-    category: str
+    category: Optional[str]
     url: str
 
 
@@ -29,25 +30,34 @@ class LtnCrawler(BaseCrawler):
                 metadatas = list(self._fetch_metadata(page))
             except Exception as e:
                 self.logger.error(
-                    f"Failed to fetch metadata from page {page}, because {e}"
+                    f'Stop crawling, because of {type(e).__name__}: "{e}"'
                 )
+                break
+
+            if not metadatas or metadatas[0].publish_time < start_from:
+                self.logger.info("Finish crawling.")
                 break
 
             with ThreadPoolExecutor() as executor:
-                news = executor.map(
-                    self._crawl_news,
-                    filter(lambda x: x.publish_time >= start_from, metadatas),
-                )
-                news = filter(lambda x: x is not None, news)
+                metadatas = filter(lambda x: x.publish_time >= start_from, metadatas)
 
-            yield from news
+                future_to_url = {
+                    executor.submit(self._crawl_news, metadata): metadata
+                    for metadata in metadatas
+                }
+                for future in as_completed(future_to_url):
+                    try:
+                        news = future.result()
+                    except Exception as e:
+                        self.logger.error(
+                            f'{future_to_url[future].url}: {type(e).__name__}: "{e}"'
+                        )
+                    else:
+                        yield news
 
-            if not metadatas or metadatas[-1].publish_time < start_from:
-                break
-
-    @ignore_exception
     def _crawl_news(self, metadata: LtnNewsMetadata) -> News:
         response = requests.get(metadata.url, allow_redirects=False)
+        response.raise_for_status()
         response.encoding = "utf-8"
 
         soup = bs4.BeautifulSoup(response.text, "html.parser")
@@ -59,6 +69,9 @@ class LtnCrawler(BaseCrawler):
                 "[data-desc=內容頁] > p:not([class*=ir]):not([class*=app])"
             )
         ]
+
+        if metadata.category is None:
+            raise ValueError(f"Cannot find category in {metadata.url}")
 
         return News(
             title=title,
@@ -74,34 +87,23 @@ class LtnCrawler(BaseCrawler):
 
     def _fetch_metadata(self, page: int) -> Iterable[LtnNewsMetadata]:
         url = self.metadata_api.format(page)
-        try:
-            response = requests.get(url)
-            response.raise_for_status()
-        except requests.RequestException as e:
-            self.logger.error(f"HTTP request failed: {e}")
-            return []
-
+        response = requests.get(url)
+        response.raise_for_status()
         response = response.json()
+
         if "data" not in response:
-            self.logger.error(f"Invalid response: {response}, missing 'data' field.")
-            return []
+            raise ValueError(f"Invalid response: {response}, missing 'data' field.")
 
         if isinstance(response["data"], list):
             responses = response["data"]
         elif isinstance(response["data"], dict):
             responses = response["data"].values()
         else:
-            self.logger.error(
+            raise ValueError(
                 f"Invalid response: {response}, expected 'data' to be list or dict, but got {type(response['data'])}."
             )
-            return []
 
-        try:
-            parsed_news = map(self._parse_ltn_api_response, responses)
-        except Exception as e:
-            self.logger.error(f"Failed to parse response: {e}")
-            return []
-
+        parsed_news = list(map(self._parse_ltn_api_response, responses))
         return parsed_news
 
     def _parse_ltn_api_response(self, response: dict) -> LtnNewsMetadata:
