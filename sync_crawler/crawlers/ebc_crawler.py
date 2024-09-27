@@ -42,8 +42,6 @@ class EbcCrawler(BaseCrawler):
                 self.logger.info("Finish crawling.")
                 return
 
-            print(self._crawl_news(metadatas[0]))
-
             with ThreadPoolExecutor() as executor:
                 metadatas = filter(lambda x: x.publish_time >= start_from, metadatas)
 
