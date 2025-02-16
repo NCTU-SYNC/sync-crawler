@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from collections.abc import Iterable
-from typing import Optional, override
+from typing import override
 
 from sync_crawler.handlers import DataReader, DataWriter
 from sync_crawler.models import News
@@ -9,7 +9,7 @@ from sync_crawler.models import News
 class BaseStore(DataReader, DataWriter, ABC):
     @override
     @abstractmethod
-    def read(self, num: Optional[int] = None) -> Iterable[News]:
+    def read(self, num: int | None = None) -> Iterable[News]:
         """Read data from store.
 
         Args:
