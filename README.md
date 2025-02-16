@@ -6,30 +6,11 @@ This is a crawler for the SYNC project. It crawls news articles from different n
 
 ## Installation
 
-### Execution Only
-
 ```bash
-# Crawler and mongodb client
-uv sync --frozen --no-dev
-
-# Or
-
-# Crawler, mongodb client and qdrant client
-# To store data in qdrant, you might need GPUs for execute embedding models
-uv sync --frozen --no-dev --group vectordb
-```
-
-### Development
-
-```bash
-# Crawler and mongodb client
 uv sync --frozen
-uv run pre-commit install
-
-# Or
-
-# Crawler, mongodb client and vectordb client
-# To store data in vectordb, you might need GPUs for executing embedding models
-uv sync --frozen --group vectordb
-uv run pre-commit install
 ```
+
+You can also install with the following flags:
+
+* `--no-dev`: Optional. If you don't want to install dev dependencies.
+* `--group database`: To install dependencies for storing news in MongoDB and Qdrant. You might need GPUs to execute embedding models.
