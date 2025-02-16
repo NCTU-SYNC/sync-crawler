@@ -1,16 +1,15 @@
 from typing import override
 
-import chromadb
-from chromadb.config import Settings
 from llama_index.core import Document, VectorStoreIndex
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from llama_index.vector_stores.chroma import ChromaVectorStore
+from llama_index.vector_stores.qdrant import QdrantVectorStore
+from qdrant_client import QdrantClient
 
 from sync_crawler.models import News
 from sync_crawler.writer.base_writer import BaseWriter
 
 
-class ChromaDBWriter(BaseWriter):
+class QDrantDBWriter(BaseWriter):
     def __init__(
         self,
         host: str = "localhost",
@@ -20,11 +19,11 @@ class ChromaDBWriter(BaseWriter):
         embedding_model: str = "sentence-transformers/distiluse-base-multilingual-cased-v1",
         in_memory: bool = False,
     ):
-        """Initialize ChromaDBWriter.
+        """Initialize QDrantDBWriter.
 
         Args:
-            host: Host of ChromaDB server.
-            port: Port of ChromaDB server.
+            host: Host of QDrant server.
+            port: Port of QDrant server.
             token: Token for authentication.
             collection: Name of collection.
             embedding_model: Name of embedding model. All available
@@ -33,21 +32,18 @@ class ChromaDBWriter(BaseWriter):
                 If True, `host` and `port` will be ignored.
         """
         if in_memory:
-            self._client = chromadb.EphemeralClient()
+            self._client = QdrantClient(":memory:")
         else:
-            self._client = chromadb.HttpClient(
+            self._client = QdrantClient(
                 host=host,
                 port=port,
-                settings=Settings(
-                    chroma_client_auth_provider="chromadb.auth.token.TokenAuthClientProvider",
-                    chroma_client_auth_credentials=token,
-                ),
+                # api_key=token,
             )
 
-        self._collection = self._client.get_or_create_collection(collection)
-
         self._index = VectorStoreIndex.from_vector_store(
-            vector_store=ChromaVectorStore(chroma_collection=self._collection),
+            vector_store=QdrantVectorStore(
+                client=self._client, collection_name=collection
+            ),
             embed_model=HuggingFaceEmbedding(model_name=embedding_model),
         )
 
