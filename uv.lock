@@ -1540,40 +1540,40 @@ source = { editable = "." }
 dependencies = [
     { name = "lmdb" },
     { name = "pydantic" },
-    { name = "pymongo" },
 ]
 
 [package.dev-dependencies]
+database = [
+    { name = "llama-index" },
+    { name = "llama-index-embeddings-huggingface" },
+    { name = "llama-index-vector-stores-qdrant" },
+    { name = "pymongo" },
+    { name = "qdrant-client" },
+]
 dev = [
     { name = "pre-commit" },
     { name = "pymongo-inmemory" },
     { name = "ruff" },
-]
-vectordb = [
-    { name = "llama-index" },
-    { name = "llama-index-embeddings-huggingface" },
-    { name = "llama-index-vector-stores-qdrant" },
-    { name = "qdrant-client" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "lmdb", specifier = ">=1.6.2" },
     { name = "pydantic", specifier = ">=2.10.6" },
-    { name = "pymongo", specifier = ">=4.11.1" },
 ]
 
 [package.metadata.requires-dev]
-dev = [
-    { name = "pre-commit", specifier = ">=4.1.0" },
-    { name = "pymongo-inmemory", specifier = ">=0.4.2" },
-    { name = "ruff", specifier = ">=0.9.6" },
-]
-vectordb = [
+database = [
     { name = "llama-index", specifier = "~=0.12.17" },
     { name = "llama-index-embeddings-huggingface", specifier = "~=0.5.1" },
     { name = "llama-index-vector-stores-qdrant", specifier = "~=0.4.3" },
+    { name = "pymongo", specifier = ">=4.11.1" },
     { name = "qdrant-client", specifier = "~=1.13.2" },
+]
+dev = [
+    { name = "pre-commit", specifier = "==4.1.0" },
+    { name = "pymongo-inmemory", specifier = "==0.4.2" },
+    { name = "ruff", specifier = "==0.9.6" },
 ]
 
 [[package]]
