@@ -4,7 +4,7 @@ import pickle
 import uuid
 from collections.abc import Callable, Iterable
 from contextlib import closing
-from typing import Optional, override
+from typing import override
 
 import lmdb
 
@@ -46,7 +46,7 @@ class LmdbStore(BaseStore):
             cur.putmulti(key_value_pairs)
 
     @override
-    def read(self, num: Optional[int] = None) -> Iterable[News]:
+    def read(self, num: int | None = None) -> Iterable[News]:
         with (
             self._env.begin(write=True) as txn,
             closing(txn.cursor()) as cur,
