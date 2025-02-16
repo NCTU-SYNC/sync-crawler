@@ -6,21 +6,19 @@ authors = ["David Chiu <david20571015@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "3.12.*"
 lmdb = "^1.4.1"
 pymongo = "^4.5.0"
 pydantic = "^2.7.3"
 
-[tool.poetry.group.chroma]
+[tool.poetry.group.qdrant]
 optional = true
 
-[tool.poetry.group.chroma.dependencies]
-protobuf = "^3.20.0"                          # chroma needs the version of protobuf to 3.20.x or lower
-chromadb = "^0.5.3"
-llama-index = "^0.10.11"
-transformers = "^4.35.2"
-llama-index-vector-stores-chroma = "^0.1.3"
-llama-index-embeddings-huggingface = "^0.2.2"
+[tool.poetry.group.qdrant.dependencies]
+llama-index = "^0.11.19"
+llama-index-vector-stores-qdrant = "^0.3.2"
+llama-index-embeddings-huggingface = "^0.3.1"
+qdrant-client = "^1.12.0"
 
 [tool.poetry.group.dev]
 optional = true

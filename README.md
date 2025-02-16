@@ -16,9 +16,9 @@ poetry install
 
 # Or
 
-# Crawler, mongodb client and chromadb client
-# To store data in chromadb, you might need GPUs for execute embedding models
-poetry install --with chroma
+# Crawler, mongodb client and qdrant client
+# To store data in qdrant, you might need GPUs for execute embedding models
+poetry install --with qdrant
 ```
 
 ### Development
@@ -30,8 +30,8 @@ poetry run pre-commit install
 
 # Or
 
-# Crawler, mongodb client and chromadb client
-# To store data in chromadb, you might need GPUs for execute embedding models
-poetry install --with dev,chroma
+# Crawler, mongodb client and qdrant client
+# To store data in qdrant, you might need GPUs for execute embedding models
+poetry install --with dev,qdrant
 poetry run pre-commit install
 ```
