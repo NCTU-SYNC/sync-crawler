@@ -1,4 +1,5 @@
 import argparse
+import logging
 import os
 import tomllib
 
@@ -24,12 +25,14 @@ def load_config(config_path: str):
     try:
         with open(config_path, "rb") as config_file:
             config = tomllib.load(config_file)
-    except FileNotFoundError as e:
-        print("Config file not found: %s", e)
-        raise
+    except FileNotFoundError:
+        msg = f"Config file not found at: {config_path}"
+        logging.error(msg)
+        exit(1)
     except Exception as e:
-        print("Error loading config file: %s", e)
-        raise
+        msg = f"Error loading config file: {config_path} - {e}"
+        logging.error(msg)
+        exit(1)
 
     return WriterConfig.model_validate(config)
 
