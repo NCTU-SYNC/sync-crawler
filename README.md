@@ -13,4 +13,4 @@ uv sync --frozen
 You can also install with the following flags:
 
 * `--no-dev`: Optional. If you don't want to install dev dependencies.
-* `--group database`: To install dependencies for storing news in MongoDB and Qdrant. You might need GPUs to execute embedding models.
+* `--optional database`: To install dependencies for storing news in MongoDB and Qdrant. You might need GPUs to execute embedding models.
