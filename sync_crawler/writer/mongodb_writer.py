@@ -2,35 +2,23 @@ from typing import override
 
 import pymongo
 from bson import ObjectId
-from pydantic import Field
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import BaseModel, Field
 
 from sync_crawler.writer.base_writer import BaseWriter
 
 
-class MongoConfig(BaseSettings):
-    model_config = SettingsConfigDict(
-        env_file=(".env", ".env.prod"),
-        env_file_encoding="utf-8",
-        env_prefix="MONGO_",
-        case_sensitive=True,
-        extra="ignore",
-    )
-
+class MongoConfig(BaseModel):
     url: str = Field(
         "mongodb://localhost:8000",
         description="A [MongoDB url](https://www.mongodb.com/docs/manual/reference/connection-string/) to connect to.",
-        validation_alias="URL",
     )
     database: str = Field(
         "SYNC",
         description="Name of database.",
-        validation_alias="DB",
     )
     collection: str = Field(
         "News",
         description="Name of collection.",
-        validation_alias="COLLECTION",
     )
 
 
