@@ -6,32 +6,38 @@ This is a crawler for the SYNC project. It crawls news articles from different n
 
 ## Installation
 
-This project use [poetry](https://python-poetry.org/) to manage dependencies. Please install it first.
-
-### Execution Only
-
 ```bash
-# Crawler and mongodb client
-poetry install
-
-# Or
-
-# Crawler, mongodb client and chromadb client
-# To store data in chromadb, you might need GPUs for execute embedding models
-poetry install --with chroma
+uv sync --frozen
 ```
 
-### Development
+You can also install with the following flags:
 
-```bash
-# Crawler and mongodb client
-poetry install --with dev
-poetry run pre-commit install
+* `--no-dev`: Optional. If you don't want to install dev dependencies.
+* `--optional crawlar`: To install dependencies for crawling news articles.
+* `--optional database`: To install dependencies for storing news in MongoDB and Qdrant. You might need GPUs to execute embedding models.
 
-# Or
+## Environment Variables
 
-# Crawler, mongodb client and chromadb client
-# To store data in chromadb, you might need GPUs for execute embedding models
-poetry install --with dev,chroma
-poetry run pre-commit install
+The following environment variables are **only needed if you want to store crawled data in the database**. The core crawler functionality doesn't require these variables. They should be defined in a `.env` file:
+
+| Variable          | Description                                          |
+| ----------------- | ---------------------------------------------------- |
+| MONGO_URL         | MongoDB connection string                            |
+| MONGO_DATABASE    | MongoDB database name                                |
+| MONGO_COLLECTION  | MongoDB collection name for storing news articles    |
+| QDRANT_HOST       | Hostname or IP address of the Qdrant vector database |
+| QDRANT_PORT       | Port number for the Qdrant server                    |
+| QDRANT_COLLECTION | Qdrant collection name for storing news embeddings   |
+
+## Configuration
+
+The following configuration is **only needed for database operations**. The core crawler can function without this configuration.
+
+The crawler uses a TOML configuration file located at `configs/config.toml` with the following options:
+
+### Qdrant Configuration
+
+```toml
+[qdrant]
+embedding_model = 'moka-ai/m3e-base'  # The embedding model used for vectorizing news content
 ```
