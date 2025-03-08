@@ -723,6 +723,19 @@ wheels = [
 ]
 
 [[package]]
+name = "llama-index-readers-mongodb"
+version = "0.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "llama-index-core" },
+    { name = "pymongo" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/04/e3/c301a7c64bcf2c2f4b89770f295a0ee091126b0a8aacd2bff40be04bed14/llama_index_readers_mongodb-0.3.0.tar.gz", hash = "sha256:d625f96d69ea8e7db214c008a591c0159e9c7c4d22479e2f366774e045dc3297", size = 3267 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/47/db/e06ac07cf7371f4c9d4712d022bdc7f05c64d486901fd145eb1a06c61475/llama_index_readers_mongodb-0.3.0-py3-none-any.whl", hash = "sha256:3ae0290a5f075b6c0cc1226a58144c25a30d3d6fad841cabb190362ef020e42d", size = 3561 },
+]
+
+[[package]]
 name = "llama-index-vector-stores-qdrant"
 version = "0.4.3"
 source = { registry = "https://pypi.org/simple" }
@@ -1564,6 +1577,9 @@ database = [
     { name = "pymongo" },
     { name = "qdrant-client" },
 ]
+migration = [
+    { name = "llama-index-readers-mongodb" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -1576,6 +1592,7 @@ dev = [
 requires-dist = [
     { name = "llama-index", marker = "extra == 'database'", specifier = ">=0.12.23" },
     { name = "llama-index-embeddings-huggingface", marker = "extra == 'database'", specifier = ">=0.5.2" },
+    { name = "llama-index-readers-mongodb", marker = "extra == 'migration'", specifier = ">=0.3.0" },
     { name = "llama-index-vector-stores-qdrant", marker = "extra == 'database'", specifier = ">=0.4.3" },
     { name = "lmdb", specifier = ">=1.6.2" },
     { name = "pydantic", specifier = ">=2.10.6" },
@@ -1583,7 +1600,7 @@ requires-dist = [
     { name = "pymongo", marker = "extra == 'database'", specifier = "==4.6.*" },
     { name = "qdrant-client", marker = "extra == 'database'", specifier = ">=1.13.3" },
 ]
-provides-extras = ["database"]
+provides-extras = ["database", "migration"]
 
 [package.metadata.requires-dev]
 dev = [

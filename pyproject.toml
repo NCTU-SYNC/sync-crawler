@@ -19,6 +19,9 @@ database = [
     "pymongo==4.6.*",
     "qdrant-client>=1.13.3",
 ]
+migration = [
+    "llama-index-readers-mongodb>=0.3.0",
+]
 
 [dependency-groups]
 dev = [
