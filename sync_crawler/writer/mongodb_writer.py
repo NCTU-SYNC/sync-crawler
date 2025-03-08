@@ -40,12 +40,12 @@ class MongoDBWriter(BaseWriter):
         config: MongoConfig,
         in_memory: bool = False,
     ) -> None:
-        """Initialize MongoDBWriter."
+        """Initialize MongoDBWriter.
+
         Args:
             config: Configuration for MongoDB database.
             in_memory: Whether to use an in-memory database, usually for testing and development..
         """
-
         if in_memory:
             import pymongo_inmemory
 
