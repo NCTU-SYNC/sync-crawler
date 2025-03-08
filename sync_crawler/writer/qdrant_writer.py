@@ -3,37 +3,25 @@ from typing import override
 from llama_index.core import Document, VectorStoreIndex
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.vector_stores.qdrant import QdrantVectorStore
-from pydantic import Field
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import BaseModel, Field
 from qdrant_client import QdrantClient
 
 from sync_crawler.models import News
 from sync_crawler.writer.base_writer import BaseWriter
 
 
-class QdrantConfig(BaseSettings):
-    model_config = SettingsConfigDict(
-        env_file=(".env", ".env.prod"),
-        env_file_encoding="utf-8",
-        env_prefix="QDRANT_",
-        case_sensitive=True,
-        extra="ignore",
-    )
-
+class QdrantConfig(BaseModel):
     host: str = Field(
         "localhost",
         description="Host of QDrant server.",
-        validation_alias="HOST",
     )
     port: int = Field(
         8000,
         description="Port of QDrant server.",
-        validation_alias="PORT",
     )
     collection: str = Field(
         "news",
         description="Name of collection.",
-        validation_alias="COLLECTION",
     )
     embedding_model: str = Field(
         "sentence-transformers/distiluse-base-multilingual-cased-v1",

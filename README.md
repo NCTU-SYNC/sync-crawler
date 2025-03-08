@@ -19,14 +19,14 @@ You can also install with the following flags:
 
 The following environment variables are **only needed if you want to store crawled data in the database**. The core crawler functionality doesn't require these variables. They should be defined in a `.env` file:
 
-| Variable | Description |
-|----------|-------------|
-| MONGO_URL | MongoDB connection string (e.g., `mongodb://username:password@host:port/database`) |
-| MONGO_DB | MongoDB database name |
-| MONGO_COLLECTION | MongoDB collection name for storing news articles |
-| QDRANT_HOST | Hostname or IP address of the Qdrant vector database |
-| QDRANT_PORT | Port number for the Qdrant server |
-| QDRANT_COLLECTION | Qdrant collection name for storing news embeddings |
+| Variable          | Description                                          |
+| ----------------- | ---------------------------------------------------- |
+| MONGO_URL         | MongoDB connection string                            |
+| MONGO_DATABASE    | MongoDB database name                                |
+| MONGO_COLLECTION  | MongoDB collection name for storing news articles    |
+| QDRANT_HOST       | Hostname or IP address of the Qdrant vector database |
+| QDRANT_PORT       | Port number for the Qdrant server                    |
+| QDRANT_COLLECTION | Qdrant collection name for storing news embeddings   |
 
 ## Configuration
 
