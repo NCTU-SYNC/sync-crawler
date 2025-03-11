@@ -1,10 +1,11 @@
 from collections.abc import Sequence
 from datetime import datetime
 
-import pydantic
+from bson import ObjectId
+from pydantic import BaseModel, ConfigDict, Field
 
 
-class News(pydantic.BaseModel):
+class News(BaseModel):
     title: str
     content: Sequence[str]
     content_hash: str
@@ -14,8 +15,9 @@ class News(pydantic.BaseModel):
     tags: Sequence[str]
     url: str
     url_hash: str
+    mongo_id: ObjectId = Field(default_factory=ObjectId)
 
-    model_config = pydantic.ConfigDict(extra="forbid")
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     @property
     def text(self) -> str:
