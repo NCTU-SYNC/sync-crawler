@@ -20,7 +20,10 @@ database = [
     "qdrant-client>=1.13.3",
 ]
 migration = [
+    "llama-index>=0.12.23",
     "llama-index-readers-mongodb>=0.3.0",
+    "pymongo==4.6.*",
+    "qdrant-client>=1.13.3",
 ]
 
 [dependency-groups]
