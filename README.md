@@ -7,14 +7,14 @@ This is a crawler for the SYNC project. It crawls news articles from different n
 ## Installation
 
 ```bash
-uv sync  --no-dev --frozen
+uv sync --frozen
 ```
 
 You can also install with the following flags:
 
 * `--no-dev`: Optional. If you don't want to install dev dependencies.
-* `--optional database`: To install dependencies for storing news in MongoDB and Qdrant. You might need GPUs to execute embedding models.
-* `--optional migration`: To install dependencies for migrating data from MongoDB to Qdrant. You might need GPUs to execute embedding models.
+* `--extra database`: To install dependencies for storing news in MongoDB and Qdrant. You might need GPUs to execute embedding models.
+* `--extra migration`: To install dependencies for migrating data from MongoDB to Qdrant. You might need GPUs to execute embedding models.
 
 ## Environment Variables
 
