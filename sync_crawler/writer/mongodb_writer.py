@@ -1,9 +1,9 @@
 from typing import override
 
 import pymongo
-from bson import ObjectId
 from pydantic import BaseModel, Field
 
+from sync_crawler.models.news import News
 from sync_crawler.writer.base_writer import BaseWriter
 
 
@@ -43,8 +43,11 @@ class MongoDBWriter(BaseWriter):
         self._collection = self._client[config.database][config.collection]
 
     @override
-    def write(self, news_with_id):
-        news_dicts = (
-            {"_id": ObjectId(str(_id)), **ns.model_dump()} for _id, ns in news_with_id
-        )
+    def write(self, news_items: list[News]):
+        news_dicts = map(self.__news_to_mongo_entry, news_items)
         self._collection.insert_many(news_dicts)
+
+    def __news_to_mongo_entry(self, news: News) -> dict:
+        mongo_entry = news.model_dump()
+        mongo_entry["_id"] = mongo_entry.pop("mongo_id", None)
+        return mongo_entry

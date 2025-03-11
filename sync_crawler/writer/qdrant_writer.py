@@ -6,7 +6,7 @@ from llama_index.vector_stores.qdrant import QdrantVectorStore
 from pydantic import BaseModel, Field
 from qdrant_client import QdrantClient
 
-from sync_crawler.models import News
+from sync_crawler.models.news import News
 from sync_crawler.writer.base_writer import BaseWriter
 
 
@@ -16,7 +16,7 @@ class QdrantConfig(BaseModel):
         description="Host of QDrant server.",
     )
     port: int = Field(
-        8000,
+        6333,
         description="Port of QDrant server.",
     )
     collection: str = Field(
@@ -24,7 +24,7 @@ class QdrantConfig(BaseModel):
         description="Name of collection.",
     )
     embedding_model: str = Field(
-        "sentence-transformers/distiluse-base-multilingual-cased-v1",
+        "intfloat/multilingual-e5-large",
         description="Name of embedding model. All available models can be found [here](https://huggingface.co/models?language=zh)",
     )
 
@@ -56,24 +56,22 @@ class QDrantDBWriter(BaseWriter):
             embed_model=HuggingFaceEmbedding(model_name=config.embedding_model),
         )
 
-    @staticmethod
-    def _get_metadata(news: News):
-        return news.model_dump(include={"title", "category"}) | {
-            "modified_date": news.modified_date.timestamp()
-        }
-
-    excluded_metadata_keys = ["modified_date"]
+    excluded_metadata_keys = ["mongo_id", "modified_date"]
 
     @override
-    def write(self, news_with_id):
+    def write(self, news_items: list[News]):
         docs = [
             Document(
-                doc_id=str(id_),
                 text=ns.text,
-                extra_info=self._get_metadata(ns),
+                metadata={
+                    "mongo_id": str(ns.mongo_id),
+                    "title": ns.title,
+                    "category": ns.category,
+                    "modified_date": ns.modified_date.timestamp(),
+                },
                 excluded_embed_metadata_keys=self.excluded_metadata_keys,
                 excluded_llm_metadata_keys=self.excluded_metadata_keys,
             )
-            for id_, ns in news_with_id
+            for ns in news_items
         ]
         self._index.insert_nodes(docs)
