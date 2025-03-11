@@ -1579,6 +1579,7 @@ database = [
 ]
 migration = [
     { name = "llama-index" },
+    { name = "llama-index-embeddings-huggingface" },
     { name = "llama-index-readers-mongodb" },
     { name = "pymongo" },
     { name = "qdrant-client" },
@@ -1596,6 +1597,7 @@ requires-dist = [
     { name = "llama-index", marker = "extra == 'database'", specifier = ">=0.12.23" },
     { name = "llama-index", marker = "extra == 'migration'", specifier = ">=0.12.23" },
     { name = "llama-index-embeddings-huggingface", marker = "extra == 'database'", specifier = ">=0.5.2" },
+    { name = "llama-index-embeddings-huggingface", marker = "extra == 'migration'", specifier = ">=0.5.2" },
     { name = "llama-index-readers-mongodb", marker = "extra == 'migration'", specifier = ">=0.3.0" },
     { name = "llama-index-vector-stores-qdrant", marker = "extra == 'database'", specifier = ">=0.4.3" },
     { name = "lmdb", specifier = ">=1.6.2" },
