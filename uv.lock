@@ -1578,7 +1578,10 @@ database = [
     { name = "qdrant-client" },
 ]
 migration = [
+    { name = "llama-index" },
     { name = "llama-index-readers-mongodb" },
+    { name = "pymongo" },
+    { name = "qdrant-client" },
 ]
 
 [package.dev-dependencies]
@@ -1591,6 +1594,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "llama-index", marker = "extra == 'database'", specifier = ">=0.12.23" },
+    { name = "llama-index", marker = "extra == 'migration'", specifier = ">=0.12.23" },
     { name = "llama-index-embeddings-huggingface", marker = "extra == 'database'", specifier = ">=0.5.2" },
     { name = "llama-index-readers-mongodb", marker = "extra == 'migration'", specifier = ">=0.3.0" },
     { name = "llama-index-vector-stores-qdrant", marker = "extra == 'database'", specifier = ">=0.4.3" },
@@ -1598,7 +1602,9 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.10.6" },
     { name = "pydantic-settings", specifier = ">=2.8.1" },
     { name = "pymongo", marker = "extra == 'database'", specifier = "==4.6.*" },
+    { name = "pymongo", marker = "extra == 'migration'", specifier = "==4.6.*" },
     { name = "qdrant-client", marker = "extra == 'database'", specifier = ">=1.13.3" },
+    { name = "qdrant-client", marker = "extra == 'migration'", specifier = ">=1.13.3" },
 ]
 provides-extras = ["database", "migration"]
 
