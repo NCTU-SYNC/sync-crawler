@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from typing import override
 
 import pymongo
@@ -43,7 +44,7 @@ class MongoDBWriter(BaseWriter):
         self._collection = self._client[config.database][config.collection]
 
     @override
-    def write(self, news_items: list[News]):
+    def write(self, news_items: Iterable[News]):
         news_dicts = map(self.__news_to_mongo_entry, news_items)
         self._collection.insert_many(news_dicts)
 

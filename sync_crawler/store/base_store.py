@@ -22,10 +22,10 @@ class BaseStore(DataReader, DataWriter, ABC):
 
     @override
     @abstractmethod
-    def write(self, news: Iterable[News]):
+    def write(self, news_items: Iterable[News]):
         """Write data to store.
 
         Args:
-            news: Iterable of News to be written.
+            news_items: Iterable of News to be written.
         """
         pass

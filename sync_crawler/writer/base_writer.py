@@ -9,8 +9,5 @@ from sync_crawler.models import News
 class BaseWriter(DataWriter, ABC):
     @override
     @abstractmethod
-    def write(
-        self,
-        news_items: Iterable[News],
-    ):
+    def write(self, news_items: Iterable[News]):
         pass

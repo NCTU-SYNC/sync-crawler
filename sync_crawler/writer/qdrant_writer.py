@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from typing import override
 
 from llama_index.core import Document, VectorStoreIndex
@@ -59,7 +60,7 @@ class QDrantDBWriter(BaseWriter):
     excluded_metadata_keys = ["mongo_id", "modified_date"]
 
     @override
-    def write(self, news_items: list[News]):
+    def write(self, news_items: Iterable[News]):
         docs = [
             Document(
                 text=ns.text,
