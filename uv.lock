@@ -723,6 +723,19 @@ wheels = [
 ]
 
 [[package]]
+name = "llama-index-readers-mongodb"
+version = "0.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "llama-index-core" },
+    { name = "pymongo" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/04/e3/c301a7c64bcf2c2f4b89770f295a0ee091126b0a8aacd2bff40be04bed14/llama_index_readers_mongodb-0.3.0.tar.gz", hash = "sha256:d625f96d69ea8e7db214c008a591c0159e9c7c4d22479e2f366774e045dc3297", size = 3267 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/47/db/e06ac07cf7371f4c9d4712d022bdc7f05c64d486901fd145eb1a06c61475/llama_index_readers_mongodb-0.3.0-py3-none-any.whl", hash = "sha256:3ae0290a5f075b6c0cc1226a58144c25a30d3d6fad841cabb190362ef020e42d", size = 3561 },
+]
+
+[[package]]
 name = "llama-index-vector-stores-qdrant"
 version = "0.4.3"
 source = { registry = "https://pypi.org/simple" }
@@ -1208,22 +1221,21 @@ wheels = [
 
 [[package]]
 name = "pymongo"
-version = "4.11.1"
+version = "4.6.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "dnspython" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c5/18/63fd06769a2f47842c374fc5d937445fe8dc2f31b3a859c8bf7df73daa14/pymongo-4.11.1.tar.gz", hash = "sha256:3757ce9257c3486eead45680a8895a0ed9ba27efaf1791fc0cf854367c21c638", size = 2054021 }
+sdist = { url = "https://files.pythonhosted.org/packages/6f/5d/b05b09299f0b03219db9e31ea404e89c056f55a0aafbb403f6710391c44d/pymongo-4.6.3.tar.gz", hash = "sha256:400074090b9a631f120b42c61b222fd743490c133a5d2f99c0208cefcccc964e", size = 1431391 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cc/8a/81fdd61a0764c0ba1072cd70f67c7f4a83008ceaa61305e20add2ad580c6/pymongo-4.11.1-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:f96683f1dec7d28f12fe43a4d5c0df35d6b80348a9fbf5aac47fa284332a1f92", size = 895365 },
-    { url = "https://files.pythonhosted.org/packages/05/60/32910044b2329b7a580a1b4d4f895ecb9616cdffeb57c2d7622214659ac5/pymongo-4.11.1-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:157e6a722d051c4bab3e6bc34a1f80fc98101cf2d12139a94e51638d023198c5", size = 895061 },
-    { url = "https://files.pythonhosted.org/packages/00/11/30d3351f24cf8e652a0d5fe76e56a50478ea7e81dabcfea7339b1338cccd/pymongo-4.11.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:74503e853758e1eaa1cad2df9c08c8c35a3d26222cf6426d2cde4b2e8593b9b3", size = 1673794 },
-    { url = "https://files.pythonhosted.org/packages/a7/90/5ff61e8bad861621361868addeb34c4d2539a4c973a5767d1a266878cb32/pymongo-4.11.1-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:b630596089106c968ddd252bde3fe692c420e24f214dd39ca517d26343d81012", size = 1738027 },
-    { url = "https://files.pythonhosted.org/packages/d0/91/1fdf2843a664f01b8ca83d22cd7accb48f3a5371e61813a5451bc33f93c3/pymongo-4.11.1-cp312-cp312-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:7007669eef871079d39a9bbcda0fbcd4252f9b575592804343d0b5c05849d65b", size = 1707052 },
-    { url = "https://files.pythonhosted.org/packages/c6/f7/1bd23ea674c957b24256f9ef87875892801cf77b3d2535e59dd78b04db2e/pymongo-4.11.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:488d1da6201e1350cfcd4deab599b32237ac2ac591180d44553a2c8e614f2c0e", size = 1677027 },
-    { url = "https://files.pythonhosted.org/packages/62/42/077b138efd223ed3cd03f3b8622d2315096e7cd1d9476cd8f1cf219c420e/pymongo-4.11.1-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:908e65ab42cd4bf1ffeaafe8f11bb86b3f804d54227058794e33fff2963ccc86", size = 1636150 },
-    { url = "https://files.pythonhosted.org/packages/c9/a5/f958fcdc944f97d02b6a46c94dbbcdde0d355639c8564974b31b4685e97a/pymongo-4.11.1-cp312-cp312-win32.whl", hash = "sha256:2d1d956c15dd05f1e41c61f0dbcaec59f274db4814cff2c3d9c2508f58004c39", size = 864029 },
-    { url = "https://files.pythonhosted.org/packages/d2/e2/b1747eabad8bf172aa66fae50ed7290c4992b8adbeaddbe31944755dbed4/pymongo-4.11.1-cp312-cp312-win_amd64.whl", hash = "sha256:c71655f4188c70032ba56ac7ead688449e4f86a4ccd8e57201ee283f2f591e1d", size = 882299 },
+    { url = "https://files.pythonhosted.org/packages/e3/2a/2618a4b06f171898567afcbea35e38b3331888bdc75ed0326722974186b4/pymongo-4.6.3-cp312-cp312-macosx_10_9_universal2.whl", hash = "sha256:722f2b709b63311c0efda4fa4c603661faa4bec6bad24a6cc41a3bc6d841bf09", size = 533505 },
+    { url = "https://files.pythonhosted.org/packages/e9/e0/282c46bb31f5a0b548153bd0f42a932765b217ac88e4b5e2f1fbad5eef07/pymongo-4.6.3-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:994386a4d6ad39e18bcede6dc8d1d693ec3ed897b88f86b1841fbc37227406da", size = 694486 },
+    { url = "https://files.pythonhosted.org/packages/e3/33/1e9c21c045dd1a5e13ba3f7fbf2675c5c8d03abd97bac987dfa31798e897/pymongo-4.6.3-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:391aea047bba928006114282f175bc8d09c53fe1b7d8920bf888325e229302fe", size = 704572 },
+    { url = "https://files.pythonhosted.org/packages/d4/fe/70f5a2bf64ab3353bed4487b7f6ac8f6ca90b65dcb9f10e193f4135d9f9e/pymongo-4.6.3-cp312-cp312-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:f4330c022024e7994b630199cdae909123e4b0e9cf15335de71b146c0f6a2435", size = 701333 },
+    { url = "https://files.pythonhosted.org/packages/e2/35/4b18e02232a86e7cb4ac478af78d33e3528182965e39c6d4dcac55284802/pymongo-4.6.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:01277a7e183c59081368e4efbde2b8f577014431b257959ca98d3a4e8682dd51", size = 691985 },
+    { url = "https://files.pythonhosted.org/packages/86/3a/39bdf2351fc3a0296157d7416b4c1f783f4b602066d54d66299862d106a0/pymongo-4.6.3-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:d30d5d7963453b478016bf7b0d87d7089ca24d93dbdecfbc9aa32f1b4772160a", size = 680748 },
+    { url = "https://files.pythonhosted.org/packages/e0/9a/fb43e171d0b314ab75206e59ae87196045617422885aa0e32f6c59ac9b07/pymongo-4.6.3-cp312-cp312-win32.whl", hash = "sha256:a023804a3ac0f85d4510265b60978522368b5815772262e61e3a2222a8b315c9", size = 467744 },
+    { url = "https://files.pythonhosted.org/packages/b3/8a/fb83c32b40a47cbbbecff401e41f089b4387c76a806052ee4ac4810f06ad/pymongo-4.6.3-cp312-cp312-win_amd64.whl", hash = "sha256:2a6ae9a600bbc2dbff719c98bf5da584fb8a4f2bb23729a09be2e9c3dbc61c8a", size = 472992 },
 ]
 
 [[package]]
@@ -1570,6 +1582,13 @@ database = [
     { name = "pymongo" },
     { name = "qdrant-client" },
 ]
+migration = [
+    { name = "llama-index" },
+    { name = "llama-index-embeddings-huggingface" },
+    { name = "llama-index-readers-mongodb" },
+    { name = "pymongo" },
+    { name = "qdrant-client" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -1582,17 +1601,22 @@ dev = [
 requires-dist = [
     { name = "beautifulsoup4", marker = "extra == 'crawler'", specifier = ">=4.13.3" },
     { name = "llama-index", marker = "extra == 'database'", specifier = ">=0.12.23" },
+    { name = "llama-index", marker = "extra == 'migration'", specifier = ">=0.12.23" },
     { name = "llama-index-embeddings-huggingface", marker = "extra == 'database'", specifier = ">=0.5.2" },
+    { name = "llama-index-embeddings-huggingface", marker = "extra == 'migration'", specifier = ">=0.5.2" },
+    { name = "llama-index-readers-mongodb", marker = "extra == 'migration'", specifier = ">=0.3.0" },
     { name = "llama-index-vector-stores-qdrant", marker = "extra == 'database'", specifier = ">=0.4.3" },
     { name = "lmdb", specifier = ">=1.6.2" },
     { name = "pydantic", specifier = ">=2.10.6" },
     { name = "pydantic-settings", specifier = ">=2.8.1" },
-    { name = "pymongo", marker = "extra == 'database'", specifier = ">=4.11.1" },
+    { name = "pymongo", marker = "extra == 'database'", specifier = "==4.6.*" },
+    { name = "pymongo", marker = "extra == 'migration'", specifier = "==4.6.*" },
     { name = "python-dateutil", marker = "extra == 'crawler'", specifier = ">=2.9.0.post0" },
     { name = "qdrant-client", marker = "extra == 'database'", specifier = ">=1.13.3" },
+    { name = "qdrant-client", marker = "extra == 'migration'", specifier = ">=1.13.3" },
     { name = "requests", marker = "extra == 'crawler'", specifier = ">=2.32.3" },
 ]
-provides-extras = ["database", "crawler"]
+provides-extras = ["crawler", "database", "migration"]
 
 [package.metadata.requires-dev]
 dev = [

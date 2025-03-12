@@ -21,7 +21,14 @@ database = [
     "llama-index>=0.12.23",
     "llama-index-embeddings-huggingface>=0.5.2",
     "llama-index-vector-stores-qdrant>=0.4.3",
-    "pymongo>=4.11.1",
+    "pymongo==4.6.*",
+    "qdrant-client>=1.13.3",
+]
+migration = [
+    "llama-index>=0.12.23",
+    "llama-index-embeddings-huggingface>=0.5.2",
+    "llama-index-readers-mongodb>=0.3.0",
+    "pymongo==4.6.*",
     "qdrant-client>=1.13.3",
 ]
 
