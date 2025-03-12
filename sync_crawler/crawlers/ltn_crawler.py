@@ -3,7 +3,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import datetime
 from itertools import count
-from typing import Optional
 
 import bs4
 import requests
@@ -16,7 +15,7 @@ from sync_crawler.models.news import News
 @dataclass
 class LtnNewsMetadata:
     publish_time: datetime
-    category: Optional[str]
+    category: str | None
     url: str
 
 
