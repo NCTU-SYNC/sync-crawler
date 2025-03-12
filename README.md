@@ -13,6 +13,7 @@ uv sync --frozen
 You can also install with the following flags:
 
 * `--no-dev`: Optional. If you don't want to install dev dependencies.
+* `--extra crawler`: To install dependencies for crawling news articles.
 * `--extra database`: To install dependencies for storing news in MongoDB and Qdrant. You might need GPUs to execute embedding models.
 * `--extra migration`: To install dependencies for migrating data from MongoDB to Qdrant. You might need GPUs to execute embedding models.
 
@@ -34,10 +35,3 @@ The following environment variables are **only needed if you want to store crawl
 The following configuration is **only needed for database operations**. The core crawler can function without this configuration.
 
 The crawler uses a TOML configuration file located at `configs/config.toml` with the following options:
-
-### Qdrant Configuration
-
-```toml
-[qdrant]
-embedding_model = 'moka-ai/m3e-base'  # The embedding model used for vectorizing news content
-```

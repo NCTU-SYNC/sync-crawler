@@ -12,6 +12,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+crawler = [
+    "beautifulsoup4>=4.13.3",
+    "python-dateutil>=2.9.0.post0",
+    "requests>=2.32.3",
+]
 database = [
     "llama-index>=0.12.23",
     "llama-index-embeddings-huggingface>=0.5.2",

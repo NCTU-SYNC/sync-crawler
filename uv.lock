@@ -1570,6 +1570,11 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+crawler = [
+    { name = "beautifulsoup4" },
+    { name = "python-dateutil" },
+    { name = "requests" },
+]
 database = [
     { name = "llama-index" },
     { name = "llama-index-embeddings-huggingface" },
@@ -1594,6 +1599,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "beautifulsoup4", marker = "extra == 'crawler'", specifier = ">=4.13.3" },
     { name = "llama-index", marker = "extra == 'database'", specifier = ">=0.12.23" },
     { name = "llama-index", marker = "extra == 'migration'", specifier = ">=0.12.23" },
     { name = "llama-index-embeddings-huggingface", marker = "extra == 'database'", specifier = ">=0.5.2" },
@@ -1605,10 +1611,12 @@ requires-dist = [
     { name = "pydantic-settings", specifier = ">=2.8.1" },
     { name = "pymongo", marker = "extra == 'database'", specifier = "==4.6.*" },
     { name = "pymongo", marker = "extra == 'migration'", specifier = "==4.6.*" },
+    { name = "python-dateutil", marker = "extra == 'crawler'", specifier = ">=2.9.0.post0" },
     { name = "qdrant-client", marker = "extra == 'database'", specifier = ">=1.13.3" },
     { name = "qdrant-client", marker = "extra == 'migration'", specifier = ">=1.13.3" },
+    { name = "requests", marker = "extra == 'crawler'", specifier = ">=2.32.3" },
 ]
-provides-extras = ["database", "migration"]
+provides-extras = ["crawler", "database", "migration"]
 
 [package.metadata.requires-dev]
 dev = [
