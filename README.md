@@ -13,7 +13,7 @@ uv sync --frozen
 You can also install with the following flags:
 
 * `--no-dev`: Optional. If you don't want to install dev dependencies.
-* `--extar crawlar`: To install dependencies for crawling news articles.
+* `--extra crawler`: To install dependencies for crawling news articles.
 * `--extra database`: To install dependencies for storing news in MongoDB and Qdrant. You might need GPUs to execute embedding models.
 * `--extra migration`: To install dependencies for migrating data from MongoDB to Qdrant. You might need GPUs to execute embedding models.
 
